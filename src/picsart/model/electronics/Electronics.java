@@ -1,6 +1,6 @@
 package picsart.model.electronics;
 
-public class Electronics {
+public class Electronics implements ElectronicsInterface {
 
     public static final String NOT_INDICATED = "Not indicated";
 
@@ -96,5 +96,15 @@ public class Electronics {
                 "Power consumption: " + powerConsumption + " \n" +
                 "Price: " + price + "$ \n" +
                 "Year: " + year + " \n";
+    }
+
+    @Override
+    public void switchOn() {
+        System.out.println(model + " is switched on");
+    }
+
+    @Override
+    public void switchOff() {
+        System.out.println(model + " is switched off");
     }
 }

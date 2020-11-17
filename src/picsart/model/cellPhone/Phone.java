@@ -2,7 +2,7 @@ package picsart.model.cellPhone;
 
 import picsart.model.electronics.Electronics;
 
-public class Phone extends Electronics {
+public class Phone extends Electronics implements PhoneInterface {
 
     private String displayType = NOT_INDICATED;
     private String displaySize = NOT_INDICATED;
@@ -194,5 +194,20 @@ public class Phone extends Electronics {
                 "Main Camera: " + mainCamera + " \n" +
                 "Frontal camera: " + frontalCamera + " \n" +
                 "Battery: " + battery + " \n";
+    }
+
+    @Override
+    public void call(String number) {
+        System.out.println("Calling: " + number);
+    }
+
+    @Override
+    public void message(String message) {
+        System.out.println("Sending message: " + message);
+    }
+
+    @Override
+    public void sendEmail(String email) {
+        System.out.println("Sending email: " + email);
     }
 }

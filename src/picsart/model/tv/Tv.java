@@ -2,7 +2,7 @@ package picsart.model.tv;
 
 import picsart.model.electronics.Electronics;
 
-public class Tv extends Electronics {
+public class Tv extends Electronics implements TvInterface {
 
     private String screenType = NOT_INDICATED;
     private double screenSize = 25;
@@ -100,5 +100,40 @@ public class Tv extends Electronics {
                 "Features: " + features3dOrSmart + " \n" +
                 "Refresh rate: " + refreshRate + "Hz \n" +
                 "3D technologies: " + technologies3d + " \n";
+    }
+
+    @Override
+    public void nextChannel() {
+        System.out.println("Channel is switched to next");
+    }
+
+    @Override
+    public void previousChannel() {
+        System.out.println("Channel is switched to previous");
+    }
+
+    @Override
+    public String switchChannel(int channel) {
+        return "Channel switched to " + channel;
+    }
+
+    @Override
+    public void increaseVolume() {
+        System.out.println("Volume increased");
+    }
+
+    @Override
+    public void decreaseVolume() {
+        System.out.println("Volume decreased");
+    }
+
+    @Override
+    public void mute() {
+        System.out.println("Volume is muted");
+    }
+
+    @Override
+    public void searchChannels() {
+        System.out.println("Searching channels");
     }
 }

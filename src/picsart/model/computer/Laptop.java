@@ -1,6 +1,6 @@
 package picsart.model.computer;
 
-public class Laptop extends Computer {
+public class Laptop extends Computer implements LaptopInterface {
 
     private String screenSize = NOT_INDICATED;
     private String screenResolution = NOT_INDICATED;
@@ -146,5 +146,25 @@ public class Laptop extends Computer {
                 "Bluetooth: " + bluetoothType + " \n" +
                 "Wifi: " + wifiType + " \n" +
                 "Weight: " + weight + "kg \n";
+    }
+
+    @Override
+    public void openLaptop() {
+        System.out.println("Laptop opened");
+    }
+
+    @Override
+    public void closeLaptop() {
+        System.out.println("Laptop closed");
+    }
+
+    @Override
+    public void turnOnWebCamera() {
+        System.out.println("Web camera turned on");
+    }
+
+    @Override
+    public void setCharging() {
+        System.out.println("Charging is set");
     }
 }

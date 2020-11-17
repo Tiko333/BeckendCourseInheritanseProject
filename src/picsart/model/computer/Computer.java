@@ -2,7 +2,10 @@ package picsart.model.computer;
 
 import picsart.model.electronics.Electronics;
 
-public class Computer extends Electronics {
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
+public class Computer extends Electronics implements ComputerInterface{
 
     private String processorModel = NOT_INDICATED;
     private String videoCard = NOT_INDICATED;
@@ -96,5 +99,42 @@ public class Computer extends Electronics {
                 "Storage capacity: " + storageCapacity + " \n" +
                 "Storage Type: " + storageType + " \n" +
                 "RAM: " + ram + " \n";
+    }
+
+    @Override
+    public void playVideo() {
+        System.out.println("Playing video");
+    }
+
+    @Override
+    public void playMusic() {
+        System.out.println("Playing music");
+    }
+
+    @Override
+    public void openPicture() {
+        System.out.println("Picture opened");
+    }
+
+    @Override
+    public void openBrowser() {
+        System.out.println("Browser opened");
+    }
+
+    @Override
+    public void createFolder() {
+        System.out.println("Folder created");
+    }
+
+    @Override
+    public void openFolder() {
+        System.out.println("Folder opened");
+    }
+
+    @Override
+    public void printDate() {
+        Date date = new Date();
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss yyyy-dd-MM");
+        System.out.println(simpleDateFormat.format(date));
     }
 }

@@ -2,7 +2,7 @@ package picsart.model.camera;
 
 import picsart.model.electronics.Electronics;
 
-public class Camera extends Electronics {
+public class Camera extends Electronics implements CameraInterface {
 
     private String megapixels = NOT_INDICATED;
     private String pixelDimensions = NOT_INDICATED;
@@ -107,5 +107,30 @@ public class Camera extends Electronics {
                 "Aspect ratio: " + aspectRatio + " \n" +
                 "Image processor: " + imageProcessor + " \n" +
                 "Sensor stabilization: " + (sensorStabilization ? "Yes" : "No") + " \n";
+    }
+
+    @Override
+    public void takePhoto() {
+        System.out.println("Taking photo");
+    }
+
+    @Override
+    public void takeVideo() {
+        System.out.println("Taking video");
+    }
+
+    @Override
+    public void zoomIn() {
+        System.out.println("Zooming in");
+    }
+
+    @Override
+    public void zoomOut() {
+        System.out.println("Zooming out");
+    }
+
+    @Override
+    public void openGallery() {
+        System.out.println("Opening gallery");
     }
 }

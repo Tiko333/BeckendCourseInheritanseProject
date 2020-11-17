@@ -2,7 +2,7 @@ package picsart.model.videoGameConsole;
 
 import picsart.model.electronics.Electronics;
 
-public class Console extends Electronics {
+public class Console extends Electronics implements ConsoleInterface {
 
     private String processor = NOT_INDICATED;
     private String memory = NOT_INDICATED;
@@ -95,5 +95,10 @@ public class Console extends Electronics {
                 "Storage: " + storage + " \n" +
                 "Drive: " + drive + " \n" +
                 "AVoutput: " + aVoutput + " \n";
+    }
+
+    @Override
+    public void playGame() {
+        System.out.println("Playing game");
     }
 }
