@@ -1,0 +1,56 @@
+ID: 627695972
+Camera-model: Canon
+Megapixels: 24.1
+Pixel-dimensions: 2
+Pixel-size: 3
+Sensor-size: 4
+Aspect-ratio: 1920 x 1080
+Image-processor: ISP
+Sensor-stabilization: have sensor stabilization
+Power: 20V
+Power-consumption: 15W
+Year: 2015
+Price: 499.99
+
+ID: 111069156
+Camera-model: Nikon
+Megapixels: 16
+Pixel-dimensions: 2
+Pixel-size: 3
+Sensor-size: 3
+Aspect-ratio: 1920 x 1080
+Image-processor: IPU
+Sensor-stabilization: have sensor stabilization
+Power: 20V
+Power-consumption: 15W
+Year: 2014
+Price: 299.99
+
+ID: 600449367
+Camera-model: Sony
+Megapixels: 15
+Pixel-dimensions: 1
+Pixel-size: 2
+Sensor-size: 2
+Aspect-ratio: 1280 x 720
+Image-processor: DSP
+Sensor-stabilization: have sensor stabilization
+Power: 22V
+Power-consumption: 14W
+Year: 2016
+Price: 199.99
+
+ID: 296897655
+Camera-model: Fujifilm
+Megapixels: 16.4
+Pixel-dimensions: 2
+Pixel-size: 3
+Sensor-size: 4
+Aspect-ratio: 3840 x 2160
+Image-processor: IPU
+Sensor-stabilization: have sensor stabilization
+Power: 22V
+Power-consumption: 15W
+Year: 2020
+Price: 139.99
+

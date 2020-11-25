@@ -5,7 +5,7 @@ import picsart.model.electronics.Electronics;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
-public class Computer extends Electronics implements ComputerInterface{
+public class Computer extends Electronics implements ComputerInterface {
 
     private String processorModel = NOT_INDICATED;
     private String videoCard = NOT_INDICATED;
@@ -59,11 +59,11 @@ public class Computer extends Electronics implements ComputerInterface{
     }
 
     public void setStorageCapacity(int storageCapacity) {
-        if (storageCapacity >= 100 && storageCapacity <= 8000) {
+        if (storageCapacity >= 1) {
             this.storageCapacity = storageCapacity;
             return;
         }
-        System.err.println("Storage capacity must be bigger than '100' and smaller than '8000' GB: ");
+        System.err.println("Storage capacity must be bigger than 1GB: ");
     }
 
     public String getStorageType() {
@@ -83,11 +83,16 @@ public class Computer extends Electronics implements ComputerInterface{
     }
 
     public void setRam(int ram) {
-        if (ram >= 2 && ram <= 512) {
+        if (ram >= 1) {
             this.ram = ram;
             return;
         }
-        System.err.println("RAM must be bigger than '2' and smaller than '512' GB: ");
+        System.err.println("RAM must be bigger than 1GB: ");
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println("\n Model: " + getModel() + " OS: " + operatingSystem + " Price: " + getPrice());
     }
 
     @Override

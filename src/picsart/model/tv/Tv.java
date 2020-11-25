@@ -5,7 +5,7 @@ import picsart.model.electronics.Electronics;
 public class Tv extends Electronics implements TvInterface {
 
     private String screenType = NOT_INDICATED;
-    private double screenSize = 25;
+    private String  screenSize = NOT_INDICATED;
     private String resolution = NOT_INDICATED;
     private String features3dOrSmart = NOT_INDICATED;
     private int refreshRate = 60;
@@ -20,23 +20,23 @@ public class Tv extends Electronics implements TvInterface {
     }
 
     public void setScreenType(String screenType) {
-        if (screenType != null && screenType.equals("flat") || screenType.equals("curved")) {
+        if (screenType != null && !screenType.equals("")) {
             this.screenType = screenType;
             return;
         }
-        System.err.println("Screen type must be or 'flat' or 'curved': ");
+        System.err.println("Screen type must be not blank: ");
     }
 
-    public double getScreenSize() {
+    public String getScreenSize() {
         return screenSize;
     }
 
-    public void setScreenSize(double screenSize) {
-        if (screenSize >= 25 && screenSize <= 80) {
+    public void setScreenSize(String screenSize) {
+        if (screenSize != null && !screenSize.isEmpty()) {
             this.screenSize = screenSize;
             return;
         }
-        System.err.println("Screen size must be bigger than 25 inch and smaller than 80 inch: ");
+        System.err.println("Screen size must be not blank: ");
     }
 
     public String getResolution() {
@@ -44,11 +44,11 @@ public class Tv extends Electronics implements TvInterface {
     }
 
     public void setResolution(String resolution) {
-        if (resolution != null && resolution.equals("8K") || resolution.equals("4K") || resolution.equals("1080p") || resolution.equals("720p")) {
+        if (resolution != null && !resolution.equals("")) {
             this.resolution = resolution;
             return;
         }
-        System.err.println("Resolution must be '8K', '4K', '1080p', '720p': ");
+        System.err.println("Resolution must be not blank: ");
     }
 
     public String getFeatures3dOrSmart() {
@@ -56,11 +56,11 @@ public class Tv extends Electronics implements TvInterface {
     }
 
     public void setFeatures3dOrSmart(String features3dOrSmart) {
-        if (features3dOrSmart != null && (features3dOrSmart.equals("3D") || features3dOrSmart.equals("Smart TV"))) {
+        if (features3dOrSmart != null && (features3dOrSmart.equals("3d") || features3dOrSmart.equals("smart"))) {
             this.features3dOrSmart = features3dOrSmart;
             return;
         }
-        System.err.println("Features must be or '3D' or 'Smart TV': ");
+        System.err.println("Features must be or '3d' or 'smart': ");
     }
 
     public int getRefreshRate() {
@@ -72,7 +72,7 @@ public class Tv extends Electronics implements TvInterface {
             this.refreshRate = refreshRate;
             return;
         }
-        System.err.println("Refresh rate mut be '60Hz', '120Hz', '240Hz': ");
+        System.err.println("Refresh rate must be '60Hz', '120Hz', '240Hz': ");
     }
 
     public String getTechnologies3d() {
@@ -80,15 +80,16 @@ public class Tv extends Electronics implements TvInterface {
     }
 
     public void setTechnologies3d(String technologies3d) {
-        if (technologies3d != null && (technologies3d.equals("active 3d") || technologies3d.equals("passive 3d"))) {
+        if (technologies3d != null && !technologies3d.isEmpty()) {
             this.technologies3d = technologies3d;
             return;
         }
-        if (technologies3d != null && technologies3d.equals("not 3d")) {
-            this.technologies3d = "Not 3d";
-            return;
-        }
-        System.err.println("3D technologies must be or 'active 3d' or 'passive 3d': ");
+        System.err.println("3D technologies must be or 'active 3d' or 'passive 3d' or 'not 3d': ");
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println("\n TV model: " + getModel() + " Resolution: " + resolution + " Price: " + getPrice());
     }
 
     @Override

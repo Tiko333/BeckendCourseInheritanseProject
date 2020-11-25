@@ -1,8 +1,6 @@
 package picsart.model.electronics;
 
-public class Electronics implements ElectronicsInterface {
-
-    public static final String NOT_INDICATED = "Not indicated";
+public abstract class Electronics implements ElectronicsInterface {
 
     private long id;
     private String model = NOT_INDICATED;
@@ -10,6 +8,8 @@ public class Electronics implements ElectronicsInterface {
     private String powerConsumption = NOT_INDICATED;
     private double price = 1D;
     private int year = 2000;
+
+    public abstract void printInfo();
 
     public Electronics(long id) {
         setId(id);
@@ -81,12 +81,14 @@ public class Electronics implements ElectronicsInterface {
     }
 
     public void setYear(int year) {
-        if (year > 2000 && year < 2021) {
+        if (year > 1990 && year <= 2020) {
             this.year = year;
             return;
         }
         System.err.println("Year must be bigger then 1905 and smaller than 2021: ");
     }
+
+
 
     @Override
     public String toString() {

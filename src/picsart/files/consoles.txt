@@ -1,0 +1,39 @@
+ID: 471090099
+Console-model: PlayStation 5
+Processor: Custom 8-core AMD Zen 2, variable frequency, up to 3.5 GHz
+Memory: 16
+Storage: 825
+Drive: BR
+AVoutput: yes
+Weight: 4.5
+Power: 220V
+Power-consumption: 200W
+Year: 2020
+Price: 499.99
+
+ID: 569874120
+Console-model: PlayStation 4
+Processor: Semi-custom 8-core AMD x86-64 Jaguar 1.6 GHz CPU
+Memory: 8
+Storage: 256
+Drive: BR, DVD
+AVoutput: yes
+Weight: 2.5
+Power: 240V
+Power-consumption: 137W
+Year: 2013
+Price: 399.99
+
+ID: 921533531
+Console-model: Xbox One
+Processor: Custom 1.75 GHz AMD 8-core APU
+Memory: 8
+Storage: 500
+Drive: BR, DVD
+AVoutput: yes
+Weight: 2.9
+Power: 220V
+Power-consumption: 90W
+Year: 2013
+Price: 299.99
+

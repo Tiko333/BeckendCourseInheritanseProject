@@ -1,0 +1,69 @@
+ID: 585068593
+MotherBoard-model: HP
+Screen-size: 14 inches
+Screen-resolution: 1920 x 1080 (Full HD)
+Color: Not indicated
+TouchScreen:  no
+BuiltInMicrophone: Yes
+BuiltInWebCam: 2 megapixels
+BuiltInSpeaker: yes
+Bluetooth-type: Yes
+Wifi-type: Wi-Fi
+Weight: 1.0
+CPU-model: Intel 10th Generation Core i5
+GPU-model: Intel UHD Graphics
+Operating-system: Windows 10 Home
+Storage-capacity: 256
+Storage-type: SSD
+Ram: 8
+Power: 300W
+Power-consumption: 220V
+Year: 2020
+Price: 499.99
+
+ID: 434593622
+MotherBoard-model: Lenovo
+Screen-size: 14 inches
+Screen-resolution: 1920 x 1080 (Full HD)
+Color: Not indicated
+TouchScreen:  no
+BuiltInMicrophone: yes
+BuiltInWebCam: 720p
+BuiltInSpeaker: yes
+Bluetooth-type: yes
+Wifi-type: Wi-Fi
+Weight: 1.0
+CPU-model: Intel 10th Generation Core i5
+GPU-model: Intel UHD Graphics
+Operating-system: Windows 10 Home
+Storage-capacity: 256
+Storage-type: SSD
+Ram: 8
+Power: 300W
+Power-consumption: 220V
+Year: 2018
+Price: 549.99
+
+ID: 579014753
+MotherBoard-model: ASUS
+Screen-size: 14 inches
+Screen-resolution: 1366 x 768 (HD)
+Color: Not indicated
+TouchScreen:  no
+BuiltInMicrophone: yes
+BuiltInWebCam: yes
+BuiltInSpeaker: yes
+Bluetooth-type: yes
+Wifi-type: Wi-Fi
+Weight: 1.0
+CPU-model: Intel Celeron
+GPU-model: Default
+Operating-system: Chrome Os
+Storage-capacity: 32
+Storage-type: eMMC
+Ram: 4
+Power: 300W
+Power-consumption: 220V
+Year: 2020
+Price: 249.0
+

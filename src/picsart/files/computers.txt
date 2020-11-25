@@ -1,0 +1,39 @@
+ID: 680986319
+MotherBoard-model: HP
+CPU-model: Intel 8th Generation Core i7
+GPU-model: Intel UHD Graphics 630
+Operating-system: Windows 10 Home
+Storage-capacity: 256
+Storage-type: SSD
+Ram: 8
+Power: 500W
+Power-consumption: 220V
+Year: 2020
+Price: 529.99
+
+ID: 974787568
+MotherBoard-model: Lenovo
+CPU-model: Intel 8th Generation Core i3
+GPU-model: Intel UHD Graphics 630
+Operating-system: Windows 10 Home
+Storage-capacity: 1000
+Storage-type: HDD
+Ram: 8
+Power: 450W
+Power-consumption: 220v
+Year: 2019
+Price: 349.99
+
+ID: 600995880
+MotherBoard-model: Dell
+CPU-model: Intel 10th Generation Core i5
+GPU-model: Intel UHD Graphics 630
+Operating-system: Windows 10 Home
+Storage-capacity: 256
+Storage-type: SSD
+Ram: 12
+Power: 500W
+Power-consumption: 220V
+Year: 2018
+Price: 649.99
+

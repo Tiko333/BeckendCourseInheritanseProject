@@ -12,7 +12,6 @@ public class Camera extends Electronics implements CameraInterface {
     private String imageProcessor = NOT_INDICATED;
     private boolean sensorStabilization = false;
 
-
     public Camera(long id) {
         super(id);
     }
@@ -95,6 +94,11 @@ public class Camera extends Electronics implements CameraInterface {
 
     public void setSensorStabilization(boolean sensorStabilization) {
         this.sensorStabilization = sensorStabilization;
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println("\n Camera model: " + getModel() + " Megapixels: " + megapixels + " Price: " + getPrice());
     }
 
     @Override

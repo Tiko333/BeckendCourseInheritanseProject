@@ -123,7 +123,7 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setMemory(int memory) {
-        if (memory >= 16 && memory <= 256) {
+        if (memory >= 16) {
             this.memory = memory;
             return;
         }
@@ -176,6 +176,11 @@ public class Phone extends Electronics implements PhoneInterface {
             return;
         }
         System.err.println("Enter phone's battery: ");
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println("\n Phone model: " + getModel() + " OS: " + platformOS + " Price: " + getPrice());
     }
 
     @Override

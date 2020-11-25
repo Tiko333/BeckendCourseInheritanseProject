@@ -1,0 +1,39 @@
+ID: 256785510
+TV-model: Samsung
+Screen-type: LED
+Screen-size: 55 inches
+Resolution: 4K (2160p)
+Features: smart
+Refresh-Rate: 60
+Technologies-3d: Not 3d
+Power: 155W
+Power-consumption: 220V
+Year: 2020
+Price: 377.99
+
+ID: 235957659
+TV-model: TCL
+Screen-type: LED
+Screen-size: 50 inches
+Resolution: 4K (2160p)
+Features: smart
+Refresh-Rate: 60
+Technologies-3d: Not 3d
+Power: 160W
+Power-consumption: 220V
+Year: 2018
+Price: 229.99
+
+ID: 670472740
+TV-model: Toshiba
+Screen-type: LED
+Screen-size: 32 inches
+Resolution: HD (720p)
+Features: smart
+Refresh-Rate: 60
+Technologies-3d: Not 3d
+Power: 145W
+Power-consumption: 220V
+Year: 2017
+Price: 119.99
+

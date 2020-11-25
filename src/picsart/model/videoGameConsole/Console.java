@@ -80,11 +80,16 @@ public class Console extends Electronics implements ConsoleInterface {
     }
 
     public void setWeight(double weight) {
-        if (weight > 1) {
+        if (weight >= 1) {
             this.weight = weight;
             return;
         }
-        System.err.println("Weight must be bigger than 1");
+        System.err.println("Weight must be bigger than 0");
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println("\n Console model: " + getModel() + " Storage: " + storage + " Price: " + getPrice());
     }
 
     @Override
