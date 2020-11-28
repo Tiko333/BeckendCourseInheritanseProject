@@ -1,6 +1,8 @@
 package picsart.model.computer;
 
+import picsart.exceptions.computerExceptions.*;
 import picsart.model.electronics.Electronics;
+import picsart.service.StringCheckService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -23,11 +25,10 @@ public class Computer extends Electronics implements ComputerInterface {
     }
 
     public void setProcessorModel(String processorModel) {
-        if (processorModel != null && !processorModel.isEmpty()) {
-            this.processorModel = processorModel;
-            return;
+        if (StringCheckService.checkString(processorModel)) {
+            throw new ProcessorModelException();
         }
-        System.err.println("Enter processor model: ");
+        this.processorModel = processorModel;
     }
 
     public String getVideoCard() {
@@ -35,11 +36,10 @@ public class Computer extends Electronics implements ComputerInterface {
     }
 
     public void setVideoCard(String videoCard) {
-        if (videoCard != null && !videoCard.isEmpty()) {
-            this.videoCard = videoCard;
-            return;
+        if (StringCheckService.checkString(videoCard)) {
+            throw new VideoCardException();
         }
-        System.err.println("Enter video card: ");
+        this.videoCard = videoCard;
     }
 
     public String getOperatingSystem() {
@@ -47,11 +47,10 @@ public class Computer extends Electronics implements ComputerInterface {
     }
 
     public void setOperatingSystem(String operatingSystem) {
-        if (operatingSystem != null && !operatingSystem.isEmpty()) {
-            this.operatingSystem = operatingSystem;
-            return;
+        if (StringCheckService.checkString(operatingSystem)) {
+            throw new OperatingSystemException();
         }
-        System.err.println("Enter operating system: ");
+        this.operatingSystem = operatingSystem;
     }
 
     public int getStorageCapacity() {
@@ -59,11 +58,10 @@ public class Computer extends Electronics implements ComputerInterface {
     }
 
     public void setStorageCapacity(int storageCapacity) {
-        if (storageCapacity >= 1) {
-            this.storageCapacity = storageCapacity;
-            return;
+        if (storageCapacity < 1) {
+            throw new StorageCapacityException(storageCapacity);
         }
-        System.err.println("Storage capacity must be bigger than 1GB: ");
+        this.storageCapacity = storageCapacity;
     }
 
     public String getStorageType() {
@@ -71,11 +69,10 @@ public class Computer extends Electronics implements ComputerInterface {
     }
 
     public void setStorageType(String storageType) {
-        if (storageType != null && !storageType.isEmpty()) {
-            this.storageType = storageType;
-            return;
+        if (StringCheckService.checkString(storageType)) {
+            throw new StorageTypeException();
         }
-        System.err.println("Enter storage type: ");
+        this.storageType = storageType;
     }
 
     public int getRam() {
@@ -83,11 +80,10 @@ public class Computer extends Electronics implements ComputerInterface {
     }
 
     public void setRam(int ram) {
-        if (ram >= 1) {
-            this.ram = ram;
-            return;
+        if (ram < 1) {
+            throw new RamException(ram);
         }
-        System.err.println("RAM must be bigger than 1GB: ");
+        this.ram = ram;
     }
 
     @Override

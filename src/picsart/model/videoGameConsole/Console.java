@@ -1,6 +1,8 @@
 package picsart.model.videoGameConsole;
 
+import picsart.exceptions.videoGameConsoleExceptions.*;
 import picsart.model.electronics.Electronics;
+import picsart.service.StringCheckService;
 
 public class Console extends Electronics implements ConsoleInterface {
 
@@ -20,11 +22,10 @@ public class Console extends Electronics implements ConsoleInterface {
     }
 
     public void setProcessor(String processor) {
-        if (processor != null && !processor.isEmpty()) {
-            this.processor = processor;
-            return;
+        if (StringCheckService.checkString(processor)) {
+            throw new ProcessorException();
         }
-        System.err.println("Enter console's processor: ");
+        this.processor = processor;
     }
 
     public String getMemory() {
@@ -32,11 +33,10 @@ public class Console extends Electronics implements ConsoleInterface {
     }
 
     public void setMemory(String memory) {
-        if (memory != null && !memory.isEmpty()) {
-            this.memory = memory;
-            return;
+        if (StringCheckService.checkString(memory)) {
+            throw new MemoryException();
         }
-        System.err.println("Enter console's memory: ");
+        this.memory = memory;
     }
 
     public String getStorage() {
@@ -44,11 +44,10 @@ public class Console extends Electronics implements ConsoleInterface {
     }
 
     public void setStorage(String storage) {
-        if (storage != null && !storage.isEmpty()) {
-            this.storage = storage;
-            return;
+        if (StringCheckService.checkString(storage)) {
+            throw new StorageException();
         }
-        System.err.println("Enter console's storage: ");
+        this.storage = storage;
     }
 
     public String getDrive() {
@@ -56,11 +55,10 @@ public class Console extends Electronics implements ConsoleInterface {
     }
 
     public void setDrive(String drive) {
-        if (drive != null && !drive.isEmpty()) {
-            this.drive = drive;
-            return;
+        if (StringCheckService.checkString(drive)) {
+            throw new DriveException();
         }
-        System.err.println("Enter console's BD DVD drive: ");
+        this.drive = drive;
     }
 
     public String getAVoutput() {
@@ -68,11 +66,10 @@ public class Console extends Electronics implements ConsoleInterface {
     }
 
     public void setAVoutput(String aVoutput) {
-        if (aVoutput != null && !aVoutput.isEmpty()) {
-            this.aVoutput = aVoutput;
-            return;
+        if (StringCheckService.checkString(aVoutput)) {
+            throw new AVOutputException();
         }
-        System.err.println("Enter console's AVoutput: ");
+        this.aVoutput = aVoutput;
     }
 
     public double getWeight() {
@@ -80,11 +77,10 @@ public class Console extends Electronics implements ConsoleInterface {
     }
 
     public void setWeight(double weight) {
-        if (weight >= 1) {
-            this.weight = weight;
-            return;
+        if (weight < 1) {
+            throw new WeightException(weight);
         }
-        System.err.println("Weight must be bigger than 0");
+        this.weight = weight;
     }
 
     @Override

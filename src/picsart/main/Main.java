@@ -1,5 +1,6 @@
 package picsart.main;
 
+import picsart.model.cellPhone.Phone;
 import picsart.service.*;
 
 import java.io.IOException;

@@ -1,6 +1,8 @@
 package picsart.model.cellPhone;
 
+import picsart.exceptions.phoneExceptions.*;
 import picsart.model.electronics.Electronics;
+import picsart.service.StringCheckService;
 
 public class Phone extends Electronics implements PhoneInterface {
 
@@ -27,11 +29,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setDisplayType(String displayType) {
-        if (displayType != null && !displayType.isEmpty()) {
-            this.displayType = displayType;
-            return;
+        if (StringCheckService.checkString(displaySize)) {
+            throw new DisplayTypeException();
         }
-        System.err.println("Enter phone's display type: ");
+        this.displayType = displayType;
     }
 
     public String getDisplaySize() {
@@ -39,11 +40,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setDisplaySize(String displaySize) {
-        if (displayType != null && !displaySize.isEmpty()) {
-            this.displaySize = displaySize;
-            return;
+        if (StringCheckService.checkString(displaySize)) {
+            throw new DisplaySizeException();
         }
-        System.err.println("Enter phone's display size: ");
+        this.displaySize = displaySize;
     }
 
     public String getDisplayResolution() {
@@ -51,11 +51,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setDisplayResolution(String displayResolution) {
-        if (displayResolution != null && !displayResolution.isEmpty()) {
-            this.displayResolution = displayResolution;
-            return;
+        if (StringCheckService.checkString(displayResolution)) {
+            throw new DisplayResolutionException();
         }
-        System.err.println("Enter phone's display resolution: ");
+        this.displayResolution = displayResolution;
     }
 
     public String getDisplayProtection() {
@@ -63,11 +62,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setDisplayProtection(String displayProtection) {
-        if (displayProtection != null && !displayProtection.isEmpty()) {
-            this.displayProtection = displayProtection;
-            return;
+        if (StringCheckService.checkString(displayProtection)) {
+            throw new DisplayProtectionException();
         }
-        System.err.println("Enter phone's display protection: ");
+        this.displayProtection = displayProtection;
     }
 
     public String getPlatformOS() {
@@ -75,11 +73,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setPlatformOS(String platformOS) {
-        if (platformOS != null && !platformOS.isEmpty()) {
-            this.platformOS = platformOS;
-            return;
+        if (StringCheckService.checkString(platformOS)) {
+            throw new PlatformOSException();
         }
-        System.err.println("Enter phone's platform OS: ");
+        this.platformOS = platformOS;
     }
 
     public String getPlatformCPU() {
@@ -87,11 +84,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setPlatformCPU(String platformCPU) {
-        if (platformCPU != null && !platformCPU.isEmpty()) {
-            this.platformCPU = platformCPU;
-            return;
+        if (StringCheckService.checkString(platformCPU)) {
+            throw new PlatformCPUException();
         }
-        System.err.println("Enter phone's platform CPU: ");
+        this.platformCPU = platformCPU;
     }
 
     public String getPlatformGPU() {
@@ -99,11 +95,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setPlatformGPU(String platformGPU) {
-        if (platformGPU != null && !platformGPU.isEmpty()) {
-            this.platformGPU = platformGPU;
-            return;
+        if (StringCheckService.checkString(platformGPU)) {
+            throw new PlatformGPUException();
         }
-        System.err.println("Enter phone's platform GPU: ");
+        this.platformGPU = platformGPU;
     }
 
     public String getPlatformChipset() {
@@ -111,11 +106,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setPlatformChipset(String platformChipset) {
-        if (platformChipset != null && !platformChipset.isEmpty()) {
-            this.platformChipset = platformChipset;
-            return;
+        if (StringCheckService.checkString(platformChipset)) {
+            throw new PlatformChipsetException();
         }
-        System.err.println("Enter phone's platform Chipset: ");
+        this.platformChipset = platformChipset;
     }
 
     public int getMemory() {
@@ -123,11 +117,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setMemory(int memory) {
-        if (memory >= 16) {
-            this.memory = memory;
-            return;
+        if (memory <= 16) {
+            throw new MemoryException(memory);
         }
-        System.err.println("Memory must be bigger than '16' and smaller than '256' GB:");
+        this.memory = memory;
     }
 
     public int getRam() {
@@ -135,11 +128,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setRam(int ram) {
-        if (ram >= 1 && ram <= 12) {
-            this.ram = ram;
-            return;
+        if (ram <= 1) {
+            throw new RamException(ram);
         }
-        System.err.println("Ram must be '1' to '12' GB:");
+        this.ram = ram;
     }
 
     public String getMainCamera() {
@@ -147,11 +139,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setMainCamera(String mainCamera) {
-        if (mainCamera != null && !mainCamera.isEmpty()) {
-            this.mainCamera = mainCamera;
-            return;
+        if (StringCheckService.checkString(mainCamera)) {
+            throw new MainCameraException();
         }
-        System.err.println("Enter phone's main camera: ");
+        this.mainCamera = mainCamera;
     }
 
     public String getFrontalCamera() {
@@ -159,11 +150,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setFrontalCamera(String frontalCamera) {
-        if (frontalCamera != null && !frontalCamera.isEmpty()) {
-            this.frontalCamera = frontalCamera;
-            return;
+        if (StringCheckService.checkString(frontalCamera)) {
+            throw new FrontalCameraException();
         }
-        System.err.println("Enter phone's frontal camera: ");
+        this.frontalCamera = frontalCamera;
     }
 
     public String getBattery() {
@@ -171,11 +161,10 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setBattery(String battery) {
-        if (battery != null && !battery.isEmpty()) {
-            this.battery = battery;
-            return;
+        if (StringCheckService.checkString(battery)) {
+            throw new BatteryException();
         }
-        System.err.println("Enter phone's battery: ");
+        this.battery = battery;
     }
 
     @Override

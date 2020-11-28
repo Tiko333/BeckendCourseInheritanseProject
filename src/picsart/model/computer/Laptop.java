@@ -1,5 +1,8 @@
 package picsart.model.computer;
 
+import picsart.exceptions.laptopExceptions.*;
+import picsart.service.StringCheckService;
+
 public class Laptop extends Computer implements LaptopInterface {
 
     private String screenSize = NOT_INDICATED;
@@ -22,11 +25,10 @@ public class Laptop extends Computer implements LaptopInterface {
     }
 
     public void setScreenSize(String screenSize) {
-        if (screenSize != null && !screenSize.isEmpty()) {
-            this.screenSize = screenSize;
-            return;
+        if (StringCheckService.checkString(screenSize)) {
+            throw new ScreenSizeException();
         }
-        System.err.println("Enter screen size: ");
+        this.screenSize = screenSize;
     }
 
     public String getScreenResolution() {
@@ -34,11 +36,10 @@ public class Laptop extends Computer implements LaptopInterface {
     }
 
     public void setScreenResolution(String screenResolution) {
-        if (screenResolution != null && !screenResolution.isEmpty()) {
-            this.screenResolution = screenResolution;
-            return;
+        if (StringCheckService.checkString(screenResolution)) {
+            throw new ScreenResolutionException();
         }
-        System.err.println("Enter screen resolution: ");
+        this.screenResolution = screenResolution;
     }
 
     public String getColor() {
@@ -46,11 +47,10 @@ public class Laptop extends Computer implements LaptopInterface {
     }
 
     public void setColor(String color) {
-        if (color != null && !color.isEmpty()) {
-            this.color = color;
-            return;
+        if (StringCheckService.checkString(color)) {
+            throw new ColorException();
         }
-        System.err.println("Enter color: ");
+        this.color = color;
     }
 
     public boolean isTouchScreen() {
@@ -66,11 +66,10 @@ public class Laptop extends Computer implements LaptopInterface {
     }
 
     public void setBuiltInMicrophone(String builtInMicrophone) {
-        if (builtInMicrophone != null && !builtInMicrophone.isEmpty()) {
-            this.builtInMicrophone = builtInMicrophone;
-            return;
+        if (StringCheckService.checkString(builtInMicrophone)) {
+            throw new BuiltInMicrophoneException();
         }
-        System.err.println("Enter built-in microphone: ");
+        this.builtInMicrophone = builtInMicrophone;
     }
 
     public String getBuiltInWebCam() {
@@ -78,11 +77,10 @@ public class Laptop extends Computer implements LaptopInterface {
     }
 
     public void setBuiltInWebCam(String builtInWebCam) {
-        if (builtInWebCam != null && !builtInWebCam.isEmpty()) {
-            this.builtInWebCam = builtInWebCam;
-            return;
+        if (StringCheckService.checkString(builtInWebCam)) {
+            throw new BuiltInWebcamException();
         }
-        System.err.println("Enter built-in webcam: ");
+        this.builtInWebCam = builtInWebCam;
     }
 
     public String getBuiltInSpeaker() {
@@ -90,11 +88,10 @@ public class Laptop extends Computer implements LaptopInterface {
     }
 
     public void setBuiltInSpeaker(String builtInSpeaker) {
-        if (builtInSpeaker != null && !builtInSpeaker.isEmpty()) {
-            this.builtInSpeaker = builtInSpeaker;
-            return;
+        if (StringCheckService.checkString(builtInSpeaker)) {
+            throw new BuiltInSpeakerException();
         }
-        System.err.println("Enter built-in speaker: ");
+        this.builtInSpeaker = builtInSpeaker;
     }
 
     public String getBluetoothType() {
@@ -102,11 +99,10 @@ public class Laptop extends Computer implements LaptopInterface {
     }
 
     public void setBluetoothType(String bluetoothType) {
-        if (bluetoothType != null && !bluetoothType.isEmpty()) {
-            this.bluetoothType = bluetoothType;
-            return;
+        if (StringCheckService.checkString(bluetoothType)) {
+            throw new BluetoothTypeException();
         }
-        System.err.println("Enter bluetooth type: ");
+        this.bluetoothType = bluetoothType;
     }
 
     public String getWifiType() {
@@ -114,11 +110,10 @@ public class Laptop extends Computer implements LaptopInterface {
     }
 
     public void setWifiType(String wifiType) {
-        if (wifiType != null && !wifiType.isEmpty()) {
-            this.wifiType = wifiType;
-            return;
+        if (StringCheckService.checkString(wifiType)) {
+            throw new WifiTypeException();
         }
-        System.err.println("Enter wifi type: ");
+        this.wifiType = wifiType;
     }
 
     public double getWeight() {
@@ -126,11 +121,10 @@ public class Laptop extends Computer implements LaptopInterface {
     }
 
     public void setWeight(double weight) {
-        if (weight > 0) {
-            this.weight = weight;
-            return;
+        if (weight <= 0) {
+            throw new WeightException(weight);
         }
-        System.err.println("Weight must be bigger than 0: ");
+        this.weight = weight;
     }
 
     @Override

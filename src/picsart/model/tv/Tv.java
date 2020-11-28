@@ -1,6 +1,8 @@
 package picsart.model.tv;
 
+import picsart.exceptions.tvExceptions.*;
 import picsart.model.electronics.Electronics;
+import picsart.service.StringCheckService;
 
 public class Tv extends Electronics implements TvInterface {
 
@@ -20,11 +22,10 @@ public class Tv extends Electronics implements TvInterface {
     }
 
     public void setScreenType(String screenType) {
-        if (screenType != null && !screenType.equals("")) {
-            this.screenType = screenType;
-            return;
+        if (StringCheckService.checkString(screenType)) {
+            throw new ScreenTypeException();
         }
-        System.err.println("Screen type must be not blank: ");
+        this.screenType = screenType;
     }
 
     public String getScreenSize() {
@@ -32,11 +33,10 @@ public class Tv extends Electronics implements TvInterface {
     }
 
     public void setScreenSize(String screenSize) {
-        if (screenSize != null && !screenSize.isEmpty()) {
-            this.screenSize = screenSize;
-            return;
+        if (StringCheckService.checkString(screenSize)) {
+            throw new ScreenSizeException();
         }
-        System.err.println("Screen size must be not blank: ");
+        this.screenSize = screenSize;
     }
 
     public String getResolution() {
@@ -44,11 +44,10 @@ public class Tv extends Electronics implements TvInterface {
     }
 
     public void setResolution(String resolution) {
-        if (resolution != null && !resolution.equals("")) {
-            this.resolution = resolution;
-            return;
+        if (StringCheckService.checkString(resolution)) {
+            throw new ResolutionException();
         }
-        System.err.println("Resolution must be not blank: ");
+        this.resolution = resolution;
     }
 
     public String getFeatures3dOrSmart() {
@@ -60,7 +59,7 @@ public class Tv extends Electronics implements TvInterface {
             this.features3dOrSmart = features3dOrSmart;
             return;
         }
-        System.err.println("Features must be or '3d' or 'smart': ");
+        throw new Features3dOrSmartException();
     }
 
     public int getRefreshRate() {
@@ -72,7 +71,7 @@ public class Tv extends Electronics implements TvInterface {
             this.refreshRate = refreshRate;
             return;
         }
-        System.err.println("Refresh rate must be '60Hz', '120Hz', '240Hz': ");
+        throw new RefreshRateException();
     }
 
     public String getTechnologies3d() {
@@ -80,11 +79,10 @@ public class Tv extends Electronics implements TvInterface {
     }
 
     public void setTechnologies3d(String technologies3d) {
-        if (technologies3d != null && !technologies3d.isEmpty()) {
-            this.technologies3d = technologies3d;
-            return;
+        if (StringCheckService.checkString(technologies3d)) {
+            throw new Technologies3dException();
         }
-        System.err.println("3D technologies must be or 'active 3d' or 'passive 3d' or 'not 3d': ");
+        this.technologies3d = technologies3d;
     }
 
     @Override

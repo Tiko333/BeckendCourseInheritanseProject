@@ -1,6 +1,8 @@
 package picsart.model.camera;
 
+import picsart.exceptions.cameraExceptions.*;
 import picsart.model.electronics.Electronics;
+import picsart.service.StringCheckService;
 
 public class Camera extends Electronics implements CameraInterface {
 
@@ -21,11 +23,10 @@ public class Camera extends Electronics implements CameraInterface {
     }
 
     public void setMegapixels(String megapixels) {
-        if (megapixels != null && !megapixels.isEmpty()) {
-            this.megapixels = megapixels;
-            return;
+        if (StringCheckService.checkString(megapixels)) {
+            throw new MegapixelsException();
         }
-        System.err.println("Enter camera's megapixels: ");
+        this.megapixels = megapixels;
     }
 
     public String getPixelDimensions() {
@@ -33,11 +34,10 @@ public class Camera extends Electronics implements CameraInterface {
     }
 
     public void setPixelDimensions(String pixelDimensions) {
-        if (pixelDimensions != null && !pixelDimensions.isEmpty()) {
-            this.pixelDimensions = pixelDimensions;
-            return;
+        if (StringCheckService.checkString(pixelDimensions)) {
+            throw new PixelDimensionsException();
         }
-        System.err.println("Enter camera's pixel dimensions: ");
+        this.pixelDimensions = pixelDimensions;
     }
 
     public String getPixelSize() {
@@ -45,11 +45,10 @@ public class Camera extends Electronics implements CameraInterface {
     }
 
     public void setPixelSize(String pixelSize) {
-        if (pixelSize != null && !pixelSize.isEmpty()) {
-            this.pixelSize = pixelSize;
-            return;
+        if (StringCheckService.checkString(pixelSize)) {
+            throw new PixelSizeException();
         }
-        System.err.println("Enter camera's pixel size: ");
+        this.pixelSize = pixelSize;
     }
 
     public String getSensorSize() {
@@ -57,11 +56,10 @@ public class Camera extends Electronics implements CameraInterface {
     }
 
     public void setSensorSize(String sensorSize) {
-        if (sensorSize != null && !sensorSize.isEmpty()) {
-            this.sensorSize = sensorSize;
-            return;
+        if (StringCheckService.checkString(sensorSize)) {
+            throw new SensorSizeException();
         }
-        System.err.println("Enter camera's sensor size: ");
+        this.sensorSize = sensorSize;
     }
 
     public String getAspectRatio() {
@@ -69,11 +67,10 @@ public class Camera extends Electronics implements CameraInterface {
     }
 
     public void setAspectRatio(String aspectRatio) {
-        if (aspectRatio != null && !aspectRatio.isEmpty()) {
-            this.aspectRatio = aspectRatio;
-            return;
+        if (StringCheckService.checkString(aspectRatio)) {
+            throw new AspectRatioException();
         }
-        System.err.println("Enter camera's aspect ratio: ");
+        this.aspectRatio = aspectRatio;
     }
 
     public String getImageProcessor() {
@@ -81,11 +78,10 @@ public class Camera extends Electronics implements CameraInterface {
     }
 
     public void setImageProcessor(String imageProcessor) {
-        if (imageProcessor != null && !imageProcessor.isEmpty()) {
-            this.imageProcessor = imageProcessor;
-            return;
+        if (StringCheckService.checkString(imageProcessor)) {
+            throw new ImageProcessorException();
         }
-        System.err.println("Enter camera's image processor: ");
+        this.imageProcessor = imageProcessor;
     }
 
     public boolean isSensorStabilization() {

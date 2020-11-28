@@ -1,5 +1,9 @@
 package picsart.model.electronics;
 
+import picsart.exceptions.electronicsException.*;
+import picsart.service.IDGenerator;
+import picsart.service.StringCheckService;
+
 public abstract class Electronics implements ElectronicsInterface {
 
     private long id;
@@ -20,11 +24,10 @@ public abstract class Electronics implements ElectronicsInterface {
     }
 
     private void setId(long id) {
-        if (id >= 100000000 && id <= 999999999) {
-            this.id = id;
-            return;
+        if (!IDGenerator.checkLength(id)) {
+            throw new IDException(id);
         }
-        System.err.println("Id must be bigger than 100000000 and smaller than 999999999: ");
+        this.id = id;
     }
 
     public String getModel() {
@@ -32,11 +35,10 @@ public abstract class Electronics implements ElectronicsInterface {
     }
 
     public void setModel(String model) {
-        if (model != null && model.length() != 0) {
-            this.model = model;
-            return;
+        if (StringCheckService.checkString(model)) {
+           throw new ModelException();
         }
-        System.err.println("Model must be not blank: ");
+        this.model = model;
     }
 
     public String getPower() {
@@ -44,11 +46,10 @@ public abstract class Electronics implements ElectronicsInterface {
     }
 
     public void setPower(String power) {
-        if (power != null && power.length() != 0) {
-            this.power = power;
-            return;
+        if (StringCheckService.checkString(power)) {
+            throw new PowerException();
         }
-        System.err.println("Power must be not blank: ");
+        this.power = power;
     }
 
     public String getPowerConsumption() {
@@ -56,12 +57,10 @@ public abstract class Electronics implements ElectronicsInterface {
     }
 
     public void setPowerConsumption(String powerConsumption) {
-        if (powerConsumption != null && powerConsumption.length() != 0) {
-            this.powerConsumption = powerConsumption;
-            return;
+        if (StringCheckService.checkString(powerConsumption)) {
+            throw new PowerConsumptionException();
         }
-        System.err.println("Power consumption must be not blank: ");
-
+        this.powerConsumption = powerConsumption;
     }
 
     public double getPrice() {
@@ -69,11 +68,10 @@ public abstract class Electronics implements ElectronicsInterface {
     }
 
     public void setPrice(double price) {
-        if (price > 0) {
-            this.price = price;
-            return;
+        if (price < 0) {
+            throw new PriceException(price);
         }
-        System.err.println("Price must be not negative: " + price);
+        this.price = price;
     }
 
     public int getYear() {
@@ -81,14 +79,11 @@ public abstract class Electronics implements ElectronicsInterface {
     }
 
     public void setYear(int year) {
-        if (year > 1990 && year <= 2020) {
-            this.year = year;
-            return;
+        if (year < 1990 || year > 2020) {
+            throw new YearException(year);
         }
-        System.err.println("Year must be bigger then 1905 and smaller than 2021: ");
+        this.year = year;
     }
-
-
 
     @Override
     public String toString() {
