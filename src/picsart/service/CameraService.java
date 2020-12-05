@@ -1,5 +1,7 @@
 package picsart.service;
 
+import picsart.comparators.cameraComparators.CostComparator;
+import picsart.comparators.cameraComparators.YearComparator;
 import picsart.model.camera.Camera;
 
 import java.io.File;
@@ -8,6 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class CameraService {
@@ -124,18 +129,18 @@ public class CameraService {
         return camera;
     }
 
-    public static Camera[] createCameras(int size) throws IOException {
-        Camera[] cameras = new Camera[size];
+    public static List<Camera> createCameras(int size) throws IOException {
+        List<Camera> cameras = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             System.out.println("Creating camera number: " + (i + 1));
-            cameras[i] = create();
+            cameras.add(create());
         }
 
         return cameras;
     }
 
     public static Camera findById(long id) throws IOException {
-        Camera[] cameras = readCamerasFromFile();
+        List<Camera> cameras = readCamerasFromFile();
         for (Camera camera : cameras) {
             if (camera.getId() == id) {
                 System.out.println(camera.toString());
@@ -148,16 +153,16 @@ public class CameraService {
     }
 
     public static void findByModel(String model) throws IOException {
-        Camera[] cameras = readCamerasFromFile();
+        List<Camera> cameras = readCamerasFromFile();
         boolean isFound = false;
-        for (int i = 0; i < cameras.length; i++) {
-            Camera camera = cameras[i];
+        for (int i = 0; i < cameras.size(); i++) {
+            Camera camera = cameras.get(i);
             if (camera.getModel().equals(model)) {
                 System.out.println(camera.toString());
                 isFound = true;
                 continue;
             }
-            if (isFound && (i == cameras.length - 1)) {
+            if (isFound && (i == cameras.size() - 1)) {
                 return;
             }
         }
@@ -167,24 +172,24 @@ public class CameraService {
         }
     }
 
-    public static Camera[] findByPrice(double from, double to) throws IOException {
-        Camera[] cameras = readCamerasFromFile();
+    public static List<Camera> findByPrice(double from, double to) throws IOException {
+        List<Camera> cameras = readCamerasFromFile();
         int nullCounter = 0;
-        for (Camera phone : cameras) {
-            if (phone.getPrice() < from || phone.getPrice() > to) {
+        for (Camera camera : cameras) {
+            if (camera.getPrice() < from || camera.getPrice() > to) {
                 nullCounter++;
             }
         }
-        if (nullCounter == cameras.length) {
+        if (nullCounter == cameras.size()) {
             System.out.println("Cameras by range " + from + "$ to " + to + "$ has noy found:");
-            return new Camera[0];
+            return new ArrayList<>();
         }
-        int index = 0;
-        Camera[] selectedPhonesByPriceRange = new Camera[cameras.length - nullCounter];
+
+        List<Camera> selectedPhonesByPriceRange = new ArrayList<>();
         for (Camera phone : cameras) {
             double price = phone.getPrice();
             if (price >= from && price <= to) {
-                selectedPhonesByPriceRange[index++] = phone;
+                selectedPhonesByPriceRange.add(phone);
             }
         }
 
@@ -193,123 +198,64 @@ public class CameraService {
     }
 
     public static Camera newerCamera() throws IOException {
-        Camera[] cameras = readCamerasFromFile();
-        Camera newerCamera = cameras[0];
-        for (Camera camera : cameras) {
-            if (camera.getYear() >= newerCamera.getYear()) {
-                newerCamera = camera;
-            }
-        }
-
-        printConsole(newerCamera);
-        return newerCamera;
+        List<Camera> cameras = readCamerasFromFile();
+        Camera max = Collections.max(cameras, new YearComparator());
+        printCamera(max);
+        return max;
     }
 
     public static Camera olderCamera() throws IOException {
-        Camera[] cameras = readCamerasFromFile();
-        Camera olderCamera = cameras[0];
-        for (Camera camera : cameras) {
-            if (camera.getYear() < olderCamera.getYear()) {
-                olderCamera = camera;
-            }
-        }
-
-        printConsole(olderCamera);
-        return olderCamera;
+        List<Camera> cameras = readCamerasFromFile();
+        Camera min = Collections.min(cameras, new YearComparator());
+        printCamera(min);
+        return min;
     }
 
     public static Camera biggerCost() throws IOException {
-        Camera[] cameras = readCamerasFromFile();
-        Camera biggerCostCamera = cameras[0];
-        for (Camera camera : cameras) {
-            if (camera.getPrice() > biggerCostCamera.getPrice()) {
-                biggerCostCamera = camera;
-            }
-        }
-
-        printConsole(biggerCostCamera);
-        return biggerCostCamera;
+        List<Camera> cameras = readCamerasFromFile();
+        Camera max = Collections.max(cameras, new CostComparator());
+        printCamera(max);
+        return max;
     }
 
     public static Camera smallerCost() throws IOException {
-        Camera[] cameras = readCamerasFromFile();
-        Camera smallerCostCamera = cameras[0];
-        for (Camera camera : cameras) {
-            if (camera.getPrice() < smallerCostCamera.getPrice()) {
-                smallerCostCamera = camera;
-            }
-        }
-
-        printConsole(smallerCostCamera);
-        return smallerCostCamera;
+        List<Camera> cameras = readCamerasFromFile();
+        Camera min = Collections.min(cameras, new CostComparator());
+        printCamera(min);
+        return min;
     }
 
-    public static Camera[] ascendingOrderByPrice() throws IOException {
-        Camera[] cameras = readCamerasFromFile();
-        for (int i = 0; i < cameras.length; i++) {
-            for (int j = 1; j < cameras.length - i; j++) {
-                if (cameras[j - 1].getPrice() > cameras[j].getPrice()) {
-                    Camera temp = cameras[j];
-                    cameras[j] = cameras[j - 1];
-                    cameras[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Camera> ascendingOrderByPrice() throws IOException {
+        List<Camera> cameras = readCamerasFromFile();
+        cameras.sort(new CostComparator());
         printAll(cameras);
         return cameras;
     }
 
-    public static Camera[] descendingOrderByPrice() throws IOException {
-        Camera[] cameras = readCamerasFromFile();
-        for (int i = 0; i < cameras.length; i++) {
-            for (int j = 1; j < cameras.length - i; j++) {
-                if (cameras[j - 1].getPrice() < cameras[j].getPrice()) {
-                    Camera temp = cameras[j];
-                    cameras[j] = cameras[j - 1];
-                    cameras[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Camera> descendingOrderByPrice() throws IOException {
+        List<Camera> cameras = readCamerasFromFile();
+        cameras.sort(new CostComparator().reversed());
         printAll(cameras);
         return cameras;
     }
 
-    public static Camera[] ascendingOrderByYear() throws IOException {
-        Camera[] cameras = readCamerasFromFile();
-        for (int i = 0; i < cameras.length; i++) {
-            for (int j = 1; j < cameras.length - i; j++) {
-                if (cameras[j - 1].getYear() > cameras[j].getYear()) {
-                    Camera temp = cameras[j];
-                    cameras[j] = cameras[j - 1];
-                    cameras[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Camera> ascendingOrderByYear() throws IOException {
+        List<Camera> cameras = readCamerasFromFile();
+        cameras.sort(new YearComparator());
         printAll(cameras);
         return cameras;
     }
 
-    public static Camera[] descendingOrderByYear() throws IOException {
-        Camera[] cameras = readCamerasFromFile();
-        for (int i = 0; i < cameras.length; i++) {
-            for (int j = 1; j < cameras.length - i; j++) {
-                if (cameras[j - 1].getYear() < cameras[j].getYear()) {
-                    Camera temp = cameras[j];
-                    cameras[j] = cameras[j - 1];
-                    cameras[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Camera> descendingOrderByYear() throws IOException {
+        List<Camera> cameras = readCamerasFromFile();
+        cameras.sort(new YearComparator().reversed());
         printAll(cameras);
         return cameras;
     }
 
-    private static Camera[] readCamerasFromFile() throws IOException {
-        String[] strings = Files.readAllLines(Path.of(FILE_PATH)).toArray(new String[0]);
+    public static List<Camera> readCamerasFromFile() throws IOException {
+//        String[] strings = Files.readAllLines(Path.of(FILE_PATH)).toArray(new String[0]);
+        List<String> strings = Files.readAllLines(Path.of(FILE_PATH));
 
         return ConverterService.readCamerasFile(strings);
     }
@@ -340,7 +286,7 @@ public class CameraService {
         Files.write(Paths.get(FILE_PATH), stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
     }
 
-    public static void printAll(Camera[] cameras) throws IOException {
+    public static void printAll(List<Camera> cameras) throws IOException {
         if (cameras == null) {
             cameras = readCamerasFromFile();
             for (Camera camera : cameras) {
@@ -353,7 +299,7 @@ public class CameraService {
         }
     }
 
-    public static void printConsole(Camera camera) {
+    public static void printCamera(Camera camera) {
         System.out.println(camera.toString());
     }
 }

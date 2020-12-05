@@ -1,5 +1,7 @@
 package picsart.service;
 
+import picsart.comparators.phoneComparators.CostComparator;
+import picsart.comparators.phoneComparators.YearComparator;
 import picsart.model.cellPhone.Phone;
 import picsart.model.computer.Computer;
 
@@ -9,6 +11,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class PhoneService {
@@ -152,18 +157,18 @@ public class PhoneService {
         return phone;
     }
 
-    public static Phone[] createPhones(int size) throws IOException {
-        Phone[] phones = new Phone[size];
+    public static List<Phone> createPhones(int size) throws IOException {
+        List<Phone> phones = new LinkedList<>();
         for (int i = 0; i < size; i++) {
             System.out.println("Creating phone number: " + (i + 1));
-            phones[i] = create();
+            phones.add(create());
         }
 
         return phones;
     }
 
     public static Phone findById(long id) throws IOException {
-        Phone[] phones = readPhonesFile();
+        List<Phone> phones = readPhonesFile();
         for (Phone phone : phones) {
             if (phone.getId() == id) {
                 System.out.println(phone.toString());
@@ -176,16 +181,16 @@ public class PhoneService {
     }
 
     public static void findByModel(String model) throws IOException {
-        Phone[] phones = readPhonesFile();
+        List<Phone> phones = readPhonesFile();
         boolean isFound = false;
-        for (int i = 0; i < phones.length; i++) {
-            Phone computer = phones[i];
+        for (int i = 0; i < phones.size(); i++) {
+            Phone computer = phones.get(i);
             if (computer.getModel().equals(model)) {
                 System.out.println(computer.toString());
                 isFound = true;
                 continue;
             }
-            if (isFound && (i == phones.length - 1)) {
+            if (isFound && (i == phones.size() - 1)) {
                 return;
             }
         }
@@ -195,24 +200,23 @@ public class PhoneService {
         }
     }
 
-    public static Phone[] findByPrice(double from, double to) throws IOException {
-        Phone[] phones = readPhonesFile();
+    public static List<Phone> findByPrice(double from, double to) throws IOException {
+        List<Phone> phones = readPhonesFile();
         int nullCounter = 0;
         for (Phone phone : phones) {
             if (phone.getPrice() < from || phone.getPrice() > to) {
                 nullCounter++;
             }
         }
-        if (nullCounter == phones.length) {
+        if (nullCounter == phones.size()) {
             System.out.println("Phones by range " + from + "$ to " + to + "$ has noy found:");
-            return new Phone[0];
+            return new LinkedList<>();
         }
-        int index = 0;
-        Phone[] selectedPhonesByPriceRange = new Phone[phones.length - nullCounter];
+        List<Phone> selectedPhonesByPriceRange = new LinkedList<>();
         for (Phone phone : phones) {
             double price = phone.getPrice();
             if (price >= from && price <= to) {
-                selectedPhonesByPriceRange[index++] = phone;
+                selectedPhonesByPriceRange.add(phone);
             }
         }
 
@@ -221,123 +225,63 @@ public class PhoneService {
     }
 
     public static Phone newerPhone() throws IOException {
-        Phone[] phones = readPhonesFile();
-        Phone newerPhone = phones[0];
-        for (Phone phone : phones) {
-            if (phone.getYear() >= newerPhone.getYear()) {
-                newerPhone = phone;
-            }
-        }
-
-        printComputer(newerPhone);
-        return newerPhone;
+        List<Phone> phones = readPhonesFile();
+        Phone max = Collections.max(phones, new YearComparator());
+        printComputer(max);
+        return max;
     }
 
     public static Phone olderPhone() throws IOException {
-        Phone[] phones = readPhonesFile();
-        Phone olderPhone = phones[0];
-        for (Phone phone : phones) {
-            if (phone.getYear() < olderPhone.getYear()) {
-                olderPhone = phone;
-            }
-        }
-
-        printComputer(olderPhone);
-        return olderPhone;
+        List<Phone> phones = readPhonesFile();
+        Phone min = Collections.min(phones, new YearComparator());
+        printComputer(min);
+        return min;
     }
 
     public static Phone biggerCost() throws IOException {
-        Phone[] phones = readPhonesFile();
-        Phone biggerCostPhone = phones[0];
-        for (Phone phone : phones) {
-            if (phone.getPrice() > biggerCostPhone.getPrice()) {
-                biggerCostPhone = phone;
-            }
-        }
-
-        printComputer(biggerCostPhone);
-        return biggerCostPhone;
+        List<Phone> phones = readPhonesFile();
+        Phone max = Collections.max(phones, new CostComparator());
+        printComputer(max);
+        return max;
     }
 
     public static Phone smallerCost() throws IOException {
-        Phone[] phones = readPhonesFile();
-        Phone smallerCostPhone = phones[0];
-        for (Phone phone : phones) {
-            if (phone.getPrice() < smallerCostPhone.getPrice()) {
-                smallerCostPhone = phone;
-            }
-        }
-
-        printComputer(smallerCostPhone);
-        return smallerCostPhone;
+        List<Phone> phones = readPhonesFile();
+        Phone min = Collections.min(phones, new CostComparator());
+        printComputer(min);
+        return min;
     }
 
-    public static Phone[] ascendingOrderByPrice() throws IOException {
-        Phone[] phones = readPhonesFile();
-        for (int i = 0; i < phones.length; i++) {
-            for (int j = 1; j < phones.length - i; j++) {
-                if (phones[j - 1].getPrice() > phones[j].getPrice()) {
-                    Phone temp = phones[j];
-                    phones[j] = phones[j - 1];
-                    phones[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Phone> ascendingOrderByPrice() throws IOException {
+        List<Phone> phones = readPhonesFile();
+        phones.sort(new CostComparator());
         printAll(phones);
         return phones;
     }
 
-    public static Phone[] descendingOrderByPrice() throws IOException {
-        Phone[] phones = readPhonesFile();
-        for (int i = 0; i < phones.length; i++) {
-            for (int j = 1; j < phones.length - i; j++) {
-                if (phones[j - 1].getPrice() < phones[j].getPrice()) {
-                    Phone temp = phones[j];
-                    phones[j] = phones[j - 1];
-                    phones[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Phone> descendingOrderByPrice() throws IOException {
+        List<Phone> phones = readPhonesFile();
+        phones.sort(new CostComparator().reversed());
         printAll(phones);
         return phones;
     }
 
-    public static Phone[] ascendingOrderByYear() throws IOException {
-        Phone[] phones = readPhonesFile();
-        for (int i = 0; i < phones.length; i++) {
-            for (int j = 1; j < phones.length - i; j++) {
-                if (phones[j - 1].getYear() > phones[j].getYear()) {
-                    Phone temp = phones[j];
-                    phones[j] = phones[j - 1];
-                    phones[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Phone> ascendingOrderByYear() throws IOException {
+        List<Phone> phones = readPhonesFile();
+        phones.sort(new YearComparator());
         printAll(phones);
         return phones;
     }
 
-    public static Phone[] descendingOrderByYear() throws IOException {
-        Phone[] phones = readPhonesFile();
-        for (int i = 0; i < phones.length; i++) {
-            for (int j = 1; j < phones.length - i; j++) {
-                if (phones[j - 1].getYear() < phones[j].getYear()) {
-                    Phone temp = phones[j];
-                    phones[j] = phones[j - 1];
-                    phones[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Phone> descendingOrderByYear() throws IOException {
+        List<Phone> phones = readPhonesFile();
+        phones.sort(new YearComparator().reversed());
         printAll(phones);
         return phones;
     }
 
-    public static Phone[] readPhonesFile() throws IOException {
-        String[] strings = Files.readAllLines(Path.of(FILE_PATH)).toArray(new String[0]);
+    public static List<Phone> readPhonesFile() throws IOException {
+        List<String> strings = Files.readAllLines(Path.of(FILE_PATH));
 
         return ConverterService.readPhonesFile(strings);
     }
@@ -374,7 +318,7 @@ public class PhoneService {
         Files.write(Paths.get(FILE_PATH), stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
     }
 
-    public static void printAll(Phone[] phones) throws IOException {
+    public static void printAll(List<Phone> phones) throws IOException {
         if (phones == null) {
             phones = readPhonesFile();
             for (Phone phone : phones) {

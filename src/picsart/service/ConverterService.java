@@ -7,20 +7,20 @@ import picsart.model.computer.Laptop;
 import picsart.model.tv.Tv;
 import picsart.model.videoGameConsole.Console;
 
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
+
 public class ConverterService {
 
     private ConverterService() {
     }
 
-    public static Console[] readConsolesFile(String[] consoles) {
-        String[] data = new String[consoles.length];
-        int count = 0;
-        for (int i = 0; i < consoles.length; i++) {
-            if (consoles[i].equals("")) {
-                count++;
-            }
-            if (!consoles[i].equals("")) {
-                String[] s = consoles[i].split(" ");
+    public static List<Console> readConsolesFile(List<String> consoles) {
+        List<String> data = new ArrayList<>();
+        for (String value : consoles) {
+            if (!value.equals("")) {
+                String[] s = value.split(" ");
                 StringBuilder stringData = new StringBuilder();
                 for (int j = 1; j < s.length; j++) {
                     if (s.length == 2) {
@@ -34,41 +34,39 @@ public class ConverterService {
                     }
                 }
 
-                data[i] = stringData.toString();
+                data.add(stringData.toString());
             }
         }
 
-        Console[] consolesArray = new Console[count];
+        List<Console> consolesArray = new ArrayList<>();
         int index = 0;
-        for (int i = 0; i < consolesArray.length; i++) {
-            Console console = new Console(Long.parseLong(data[index]));
-            console.setModel(data[++index]);
-            console.setProcessor(data[++index]);
-            console.setMemory(data[++index]);
-            console.setStorage(data[++index]);
-            console.setDrive(data[++index]);
-            console.setAVoutput(data[++index]);
-            console.setWeight(Double.parseDouble(data[++index]));
-            console.setPower(data[++index]);
-            console.setPowerConsumption(data[++index]);
-            console.setYear(Integer.parseInt(data[++index]));
-            console.setPrice(Double.parseDouble(data[++index]));
-            index += 2;
-            consolesArray[i] = console;
+        for (int i = 0; i < data.size(); i++) {
+            if (index < data.size()) {
+                Console console = new Console(Long.parseLong(data.get(index)));
+                console.setModel(data.get(++index));
+                console.setProcessor(data.get(++index));
+                console.setMemory(data.get(++index));
+                console.setStorage(data.get(++index));
+                console.setDrive(data.get(++index));
+                console.setAVoutput(data.get(++index));
+                console.setWeight(Double.parseDouble(data.get(++index)));
+                console.setPower(data.get(++index));
+                console.setPowerConsumption(data.get(++index));
+                console.setYear(Integer.parseInt(data.get(++index)));
+                console.setPrice(Double.parseDouble(data.get(++index)));
+                index++;
+                consolesArray.add(console);
+            }
         }
 
         return consolesArray;
     }
 
-    public static Camera[] readCamerasFile(String[] cameras) {
-        String[] data = new String[cameras.length];
-        int count = 0;
-        for (int i = 0; i < cameras.length; i++) {
-            if (cameras[i].equals("")) {
-                count++;
-            }
-            if (!cameras[i].equals("")) {
-                String[] s = cameras[i].split(" ");
+    public static List<Camera> readCamerasFile(List<String> cameras) {
+        List<String> data = new ArrayList<>();
+        for (String value : cameras) {
+            if (!value.equals("")) {
+                String[] s = value.split(" ");
                 StringBuilder stringData = new StringBuilder();
                 for (int j = 1; j < s.length; j++) {
                     if (s.length == 2) {
@@ -82,42 +80,40 @@ public class ConverterService {
                     }
                 }
 
-                data[i] = stringData.toString();
+                data.add(stringData.toString());
             }
         }
 
-        Camera[] camerasArray = new Camera[count];
+        List<Camera> camerasList = new ArrayList<>();
         int index = 0;
-        for (int i = 0; i < camerasArray.length; i++) {
-            Camera camera = new Camera(Long.parseLong(data[index]));
-            camera.setModel(data[++index]);
-            camera.setMegapixels(data[++index]);
-            camera.setPixelDimensions(data[++index]);
-            camera.setPixelSize(data[++index]);
-            camera.setSensorSize(data[++index]);
-            camera.setAspectRatio(data[++index]);
-            camera.setImageProcessor(data[++index]);
-            camera.setSensorStabilization(data[++index].equals("have") ? true : false);
-            camera.setPower(data[++index]);
-            camera.setPowerConsumption(data[++index]);
-            camera.setYear(Integer.parseInt(data[++index]));
-            camera.setPrice(Double.parseDouble(data[++index]));
-            index += 2;
-            camerasArray[i] = camera;
+        for (int i = 0; i < data.size(); i++) {
+            if (index < data.size()) {
+                Camera camera = new Camera(Long.parseLong(data.get(index)));
+                camera.setModel(data.get(++index));
+                camera.setMegapixels(data.get(++index));
+                camera.setPixelDimensions(data.get(++index));
+                camera.setPixelSize(data.get(++index));
+                camera.setSensorSize(data.get(++index));
+                camera.setAspectRatio(data.get(++index));
+                camera.setImageProcessor(data.get(++index));
+                camera.setSensorStabilization(data.get(++index).equals("have") ? true : false);
+                camera.setPower(data.get(++index));
+                camera.setPowerConsumption(data.get(++index));
+                camera.setYear(Integer.parseInt(data.get(++index)));
+                camera.setPrice(Double.parseDouble(data.get(++index)));
+                index++;
+                camerasList.add(camera);
+            }
         }
 
-        return camerasArray;
+        return camerasList;
     }
 
-    public static Phone[] readPhonesFile(String[] phones) {
-        String[] data = new String[phones.length];
-        int count = 0;
-        for (int i = 0; i < phones.length; i++) {
-            if (phones[i].equals("")) {
-                count++;
-            }
-            if (!phones[i].equals("")) {
-                String[] s = phones[i].split(" ");
+    public static List<Phone> readPhonesFile(List<String> phones) {
+        List<String> data = new ArrayList<>();
+        for (String value : phones) {
+            if (!value.equals("")) {
+                String[] s = value.split(" ");
                 StringBuilder stringData = new StringBuilder();
                 for (int j = 1; j < s.length; j++) {
                     if (s.length == 2) {
@@ -131,48 +127,46 @@ public class ConverterService {
                     }
                 }
 
-                data[i] = stringData.toString();
+                data.add(stringData.toString());
             }
         }
 
-        Phone[] phonesArray = new Phone[count];
+        List<Phone> phonesList = new LinkedList<>();
         int index = 0;
-        for (int i = 0; i < phonesArray.length; i++) {
-            Phone phone = new Phone(Long.parseLong(data[index]));
-            phone.setModel(data[++index]);
-            phone.setDisplayType(data[++index]);
-            phone.setDisplaySize(data[++index]);
-            phone.setDisplayResolution(data[++index]);
-            phone.setDisplayProtection(data[++index]);
-            phone.setPlatformOS(data[++index]);
-            phone.setPlatformCPU(data[++index]);
-            phone.setPlatformGPU(data[++index]);
-            phone.setPlatformChipset(data[++index]);
-            phone.setMemory(Integer.parseInt(data[++index]));
-            phone.setRam(Integer.parseInt(data[++index]));
-            phone.setMainCamera(data[++index]);
-            phone.setFrontalCamera(data[++index]);
-            phone.setBattery(data[++index]);
-            phone.setPower(data[++index]);
-            phone.setPowerConsumption(data[++index]);
-            phone.setYear(Integer.parseInt(data[++index]));
-            phone.setPrice(Double.parseDouble(data[++index]));
-            index += 2;
-            phonesArray[i] = phone;
+        for (int i = 0; i < data.size(); i++) {
+            if (index < data.size()) {
+                Phone phone = new Phone(Long.parseLong(data.get(index)));
+                phone.setModel(data.get(++index));
+                phone.setDisplayType(data.get(++index));
+                phone.setDisplaySize(data.get(++index));
+                phone.setDisplayResolution(data.get(++index));
+                phone.setDisplayProtection(data.get(++index));
+                phone.setPlatformOS(data.get(++index));
+                phone.setPlatformCPU(data.get(++index));
+                phone.setPlatformGPU(data.get(++index));
+                phone.setPlatformChipset(data.get(++index));
+                phone.setMemory(Integer.parseInt(data.get(++index)));
+                phone.setRam(Integer.parseInt(data.get(++index)));
+                phone.setMainCamera(data.get(++index));
+                phone.setFrontalCamera(data.get(++index));
+                phone.setBattery(data.get(++index));
+                phone.setPower(data.get(++index));
+                phone.setPowerConsumption(data.get(++index));
+                phone.setYear(Integer.parseInt(data.get(++index)));
+                phone.setPrice(Double.parseDouble(data.get(++index)));
+                index++;
+                phonesList.add(phone);
+            }
         }
 
-        return phonesArray;
+        return phonesList;
     }
 
-    public static Computer[] readComputersFile(String[] computers) {
-        String[] data = new String[computers.length];
-        int count = 0;
-        for (int i = 0; i < computers.length; i++) {
-            if (computers[i].equals("")) {
-                count++;
-            }
-            if (!computers[i].equals("")) {
-                String[] s = computers[i].split(" ");
+    public static List<Computer> readComputersFile(List<String> computers) {
+        List<String> data = new ArrayList<>();
+        for (String value : computers) {
+            if (!value.equals("")) {
+                String[] s = value.split(" ");
                 StringBuilder stringData = new StringBuilder();
                 for (int j = 1; j < s.length; j++) {
                     if (s.length == 2) {
@@ -186,41 +180,39 @@ public class ConverterService {
                     }
                 }
 
-                data[i] = stringData.toString();
+                data.add(stringData.toString());
             }
         }
 
-        Computer[] computerArray = new Computer[count];
+        List<Computer> computerList = new ArrayList<>();
         int index = 0;
-        for (int i = 0; i < computerArray.length; i++) {
-            Computer computer = new Computer(Long.parseLong(data[index]));
-            computer.setModel(data[++index]);
-            computer.setProcessorModel(data[++index]);
-            computer.setVideoCard(data[++index]);
-            computer.setOperatingSystem(data[++index]);
-            computer.setStorageCapacity(Integer.parseInt(data[++index]));
-            computer.setStorageType(data[++index]);
-            computer.setRam(Integer.parseInt(data[++index]));
-            computer.setPower(data[++index]);
-            computer.setPowerConsumption(data[++index]);
-            computer.setYear(Integer.parseInt(data[++index]));
-            computer.setPrice(Double.parseDouble(data[++index]));
-            index += 2;
-            computerArray[i] = computer;
+        for (int i = 0; i < data.size(); i++) {
+            if (index < data.size()) {
+                Computer computer = new Computer(Long.parseLong(data.get(index)));
+                computer.setModel(data.get(++index));
+                computer.setProcessorModel(data.get(++index));
+                computer.setVideoCard(data.get(++index));
+                computer.setOperatingSystem(data.get(++index));
+                computer.setStorageCapacity(Integer.parseInt(data.get(++index)));
+                computer.setStorageType(data.get(++index));
+                computer.setRam(Integer.parseInt(data.get(++index)));
+                computer.setPower(data.get(++index));
+                computer.setPowerConsumption(data.get(++index));
+                computer.setYear(Integer.parseInt(data.get(++index)));
+                computer.setPrice(Double.parseDouble(data.get(++index)));
+                index++;
+                computerList.add(computer);
+            }
         }
 
-        return computerArray;
+        return computerList;
     }
 
-    public static Laptop[] readLaptopsFile(String[] laptops) {
-        String[] data = new String[laptops.length];
-        int count = 0;
-        for (int i = 0; i < laptops.length; i++) {
-            if (laptops[i].equals("")) {
-                count++;
-            }
-            if (!laptops[i].equals("")) {
-                String[] s = laptops[i].split(" ");
+    public static List<Laptop> readLaptopsFile(List<String> laptops) {
+        List<String> data = new ArrayList<>();
+        for (String value : laptops) {
+            if (!value.equals("")) {
+                String[] s = value.split(" ");
                 StringBuilder stringData = new StringBuilder();
                 for (int j = 1; j < s.length; j++) {
                     if (s.length == 2) {
@@ -233,52 +225,49 @@ public class ConverterService {
                         stringData.append(s[j]);
                     }
                 }
-
-                data[i] = stringData.toString();
+                data.add(stringData.toString());
             }
         }
 
-        Laptop[] laptopArray = new Laptop[count];
+        List<Laptop> laptopList = new LinkedList<>();
         int index = 0;
-        for (int i = 0; i < laptopArray.length; i++) {
-            Laptop laptop = new Laptop(Long.parseLong(data[index]));
-            laptop.setModel(data[++index]);
-            laptop.setScreenSize(data[++index]);
-            laptop.setScreenResolution(data[++index]);
-            laptop.setColor(data[++index]);
-            laptop.setTouchScreen(data[++index].equals("yes") ? true : false);
-            laptop.setBuiltInMicrophone(data[++index]);
-            laptop.setBuiltInWebCam(data[++index]);
-            laptop.setBuiltInSpeaker(data[++index]);
-            laptop.setBluetoothType(data[++index]);
-            laptop.setWifiType(data[++index]);
-            laptop.setWeight(Double.parseDouble(data[++index]));
-            laptop.setProcessorModel(data[++index]);
-            laptop.setVideoCard(data[++index]);
-            laptop.setOperatingSystem(data[++index]);
-            laptop.setStorageCapacity(Integer.parseInt(data[++index]));
-            laptop.setStorageType(data[++index]);
-            laptop.setRam(Integer.parseInt(data[++index]));
-            laptop.setPower(data[++index]);
-            laptop.setPowerConsumption(data[++index]);
-            laptop.setYear(Integer.parseInt(data[++index]));
-            laptop.setPrice(Double.parseDouble(data[++index]));
-            index += 2;
-            laptopArray[i] = laptop;
+        for (int i = 0; i < data.size(); i++) {
+            if (index < data.size()) {
+                Laptop laptop = new Laptop(Long.parseLong(data.get(index)));
+                laptop.setModel(data.get(++index));
+                laptop.setScreenSize(data.get(++index));
+                laptop.setScreenResolution(data.get(++index));
+                laptop.setColor(data.get(++index));
+                laptop.setTouchScreen(data.get(++index).equals("yes") ? true : false);
+                laptop.setBuiltInMicrophone(data.get(++index));
+                laptop.setBuiltInWebCam(data.get(++index));
+                laptop.setBuiltInSpeaker(data.get(++index));
+                laptop.setBluetoothType(data.get(++index));
+                laptop.setWifiType(data.get(++index));
+                laptop.setWeight(Double.parseDouble(data.get(++index)));
+                laptop.setProcessorModel(data.get(++index));
+                laptop.setVideoCard(data.get(++index));
+                laptop.setOperatingSystem(data.get(++index));
+                laptop.setStorageCapacity(Integer.parseInt(data.get(++index)));
+                laptop.setStorageType(data.get(++index));
+                laptop.setRam(Integer.parseInt(data.get(++index)));
+                laptop.setPower(data.get(++index));
+                laptop.setPowerConsumption(data.get(++index));
+                laptop.setYear(Integer.parseInt(data.get(++index)));
+                laptop.setPrice(Double.parseDouble(data.get(++index)));
+                index++;
+                laptopList.add(laptop);
+            }
         }
 
-        return laptopArray;
+        return laptopList;
     }
 
-    public static Tv[] readTvsFile(String[] tvs) {
-        String[] data = new String[tvs.length];
-        int count = 0;
-        for (int i = 0; i < tvs.length; i++) {
-            if (tvs[i].equals("")) {
-                count++;
-            }
-            if (!tvs[i].equals("")) {
-                String[] s = tvs[i].split(" ");
+    public static List<Tv> readTvsFile(List<String> tvs) {
+        List<String> data = new ArrayList<>();
+        for (String tv : tvs) {
+            if (!tv.equals("")) {
+                String[] s = tv.split(" ");
                 StringBuilder stringData = new StringBuilder();
                 for (int j = 1; j < s.length; j++) {
                     if (s.length == 2) {
@@ -292,29 +281,31 @@ public class ConverterService {
                     }
                 }
 
-                data[i] = stringData.toString();
+                data.add(stringData.toString());
             }
         }
 
-        Tv[] tvsArray = new Tv[count];
+        List<Tv> tvsList = new LinkedList<>();
         int index = 0;
-        for (int i = 0; i < tvsArray.length; i++) {
-            Tv laptop = new Tv(Long.parseLong(data[index]));
-            laptop.setModel(data[++index]);
-            laptop.setScreenType(data[++index]);
-            laptop.setScreenSize(data[++index]);
-            laptop.setResolution(data[++index]);
-            laptop.setFeatures3dOrSmart(data[++index]);
-            laptop.setRefreshRate(Integer.parseInt(data[++index]));
-            laptop.setTechnologies3d(data[++index]);
-            laptop.setPower(data[++index]);
-            laptop.setPowerConsumption(data[++index]);
-            laptop.setYear(Integer.parseInt(data[++index]));
-            laptop.setPrice(Double.parseDouble(data[++index]));
-            index += 2;
-            tvsArray[i] = laptop;
+        for (int i = 0; i < data.size(); i++) {
+            if (index < data.size()) {
+                Tv laptop = new Tv(Long.parseLong(data.get(index)));
+                laptop.setModel(data.get(++index));
+                laptop.setScreenType(data.get(++index));
+                laptop.setScreenSize(data.get(++index));
+                laptop.setResolution(data.get(++index));
+                laptop.setFeatures3dOrSmart(data.get(++index));
+                laptop.setRefreshRate(Integer.parseInt(data.get(++index)));
+                laptop.setTechnologies3d(data.get(++index));
+                laptop.setPower(data.get(++index));
+                laptop.setPowerConsumption(data.get(++index));
+                laptop.setYear(Integer.parseInt(data.get(++index)));
+                laptop.setPrice(Double.parseDouble(data.get(++index)));
+                index++;
+                tvsList.add(laptop);
+            }
         }
 
-        return tvsArray;
+        return tvsList;
     }
 }

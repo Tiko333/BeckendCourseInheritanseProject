@@ -1,5 +1,7 @@
 package picsart.service;
 
+import picsart.comparators.tvComparators.CostComparator;
+import picsart.comparators.tvComparators.YearComparator;
 import picsart.model.computer.Computer;
 import picsart.model.tv.Tv;
 
@@ -9,7 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Scanner;
+import java.util.*;
 
 public class TVService {
     private static final String FILE_PATH = "src/picsart/files/tvs.txt";
@@ -103,18 +105,18 @@ public class TVService {
         return tv;
     }
 
-    public static Tv[] createTvs(int size) throws IOException {
-        Tv[] tvs = new Tv[size];
+    public static List<Tv> createTvs(int size) throws IOException {
+        List<Tv> tvs = new LinkedList<>();
         for (int i = 0; i < size; i++) {
             System.out.println("Creating TV number: " + (i + 1));
-            tvs[i] = create();
+            tvs.add(create());
         }
 
         return tvs;
     }
 
     public static Tv findById(long id) throws IOException {
-        Tv[] computers = readTVsFromFile();
+        List<Tv> computers = readTVsFromFile();
         for (Tv tv : computers) {
             if (tv.getId() == id) {
                 System.out.println(tv.toString());
@@ -127,16 +129,16 @@ public class TVService {
     }
 
     public static void findByModel(String model) throws IOException {
-        Tv[] tvs = readTVsFromFile();
+        List<Tv> tvs = readTVsFromFile();
         boolean isFound = false;
-        for (int i = 0; i < tvs.length; i++) {
-            Tv tv = tvs[i];
+        for (int i = 0; i < tvs.size(); i++) {
+            Tv tv = tvs.get(i);
             if (tv.getModel().equals(model)) {
                 System.out.println(tv.toString());
                 isFound = true;
                 continue;
             }
-            if (isFound && (i == tvs.length - 1)) {
+            if (isFound && (i == tvs.size() - 1)) {
                 return;
             }
         }
@@ -146,24 +148,24 @@ public class TVService {
         }
     }
 
-    public static Tv[] findByPrice(double from, double to) throws IOException {
-        Tv[] tvs = readTVsFromFile();
+    public static List<Tv> findByPrice(double from, double to) throws IOException {
+        List<Tv> tvs = readTVsFromFile();
         int nullCounter = 0;
         for (Tv tv : tvs) {
             if (tv.getPrice() < from || tv.getPrice() > to) {
                 nullCounter++;
             }
         }
-        if (nullCounter == tvs.length) {
+        if (nullCounter == tvs.size()) {
             System.out.println("TVs by range " + from + "$ to " + to + "$ has noy found:");
-            return new Tv[0];
+            return new ArrayList<>();
         }
-        int index = 0;
-        Tv[] selectedTVsByPriceRange = new Tv[tvs.length - nullCounter];
+
+        List<Tv> selectedTVsByPriceRange = new ArrayList<>();
         for (Tv tv : tvs) {
             double price = tv.getPrice();
             if (price >= from && price <= to) {
-                selectedTVsByPriceRange[index++] = tv;
+                selectedTVsByPriceRange.add(tv);
             }
         }
 
@@ -172,123 +174,63 @@ public class TVService {
     }
 
     public static Tv newerTv() throws IOException {
-        Tv[] tvs = readTVsFromFile();
-        Tv newerTv = tvs[0];
-        for (Tv tv : tvs) {
-            if (tv.getYear() >= newerTv.getYear()) {
-                newerTv = tv;
-            }
-        }
-
-        printTv(newerTv);
-        return newerTv;
+        List<Tv> tvs = readTVsFromFile();
+        Tv max = Collections.max(tvs, new YearComparator());
+        printTv(max);
+        return max;
     }
 
     public static Tv olderTv() throws IOException {
-        Tv[] computers = readTVsFromFile();
-        Tv olderTv = computers[0];
-        for (Tv tv : computers) {
-            if (tv.getYear() < olderTv.getYear()) {
-                olderTv = tv;
-            }
-        }
-
-        printTv(olderTv);
-        return olderTv;
+        List<Tv> tvs = readTVsFromFile();
+        Tv min = Collections.min(tvs, new YearComparator());
+        printTv(min);
+        return min;
     }
 
     public static Tv biggerCost() throws IOException {
-        Tv[] tvs = readTVsFromFile();
-        Tv biggerCostTv = tvs[0];
-        for (Tv tv : tvs) {
-            if (tv.getPrice() > biggerCostTv.getPrice()) {
-                biggerCostTv = tv;
-            }
-        }
-
-        printTv(biggerCostTv);
-        return biggerCostTv;
+        List<Tv> tvs = readTVsFromFile();
+        Tv max = Collections.max(tvs, new CostComparator());
+        printTv(max);
+        return max;
     }
 
     public static Tv smallerCost() throws IOException {
-        Tv[] tvs = readTVsFromFile();
-        Tv smallerCostTv = tvs[0];
-        for (Tv tv : tvs) {
-            if (tv.getPrice() < smallerCostTv.getPrice()) {
-                smallerCostTv = tv;
-            }
-        }
-
-        printTv(smallerCostTv);
-        return smallerCostTv;
+        List<Tv> tvs = readTVsFromFile();
+        Tv min = Collections.min(tvs, new CostComparator());
+        printTv(min);
+        return min;
     }
 
-    public static Tv[] ascendingOrderByPrice() throws IOException {
-        Tv[] tvs = readTVsFromFile();
-        for (int i = 0; i < tvs.length; i++) {
-            for (int j = 1; j < tvs.length - i; j++) {
-                if (tvs[j - 1].getPrice() > tvs[j].getPrice()) {
-                    Tv temp = tvs[j];
-                    tvs[j] = tvs[j - 1];
-                    tvs[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Tv> ascendingOrderByPrice() throws IOException {
+        List<Tv> tvs = readTVsFromFile();
+        tvs.sort(new CostComparator());
         printAll(tvs);
         return tvs;
     }
 
-    public static Tv[] descendingOrderByPrice() throws IOException {
-        Tv[] tvs = readTVsFromFile();
-        for (int i = 0; i < tvs.length; i++) {
-            for (int j = 1; j < tvs.length - i; j++) {
-                if (tvs[j - 1].getPrice() < tvs[j].getPrice()) {
-                    Tv temp = tvs[j];
-                    tvs[j] = tvs[j - 1];
-                    tvs[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Tv> descendingOrderByPrice() throws IOException {
+        List<Tv> tvs = readTVsFromFile();
+        tvs.sort(new CostComparator().reversed());
         printAll(tvs);
         return tvs;
     }
 
-    public static Tv[] ascendingOrderByYear() throws IOException {
-        Tv[] tvs = readTVsFromFile();
-        for (int i = 0; i < tvs.length; i++) {
-            for (int j = 1; j < tvs.length - i; j++) {
-                if (tvs[j - 1].getYear() > tvs[j].getYear()) {
-                    Tv temp = tvs[j];
-                    tvs[j] = tvs[j - 1];
-                    tvs[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Tv> ascendingOrderByYear() throws IOException {
+        List<Tv> tvs = readTVsFromFile();
+        tvs.sort(new YearComparator());
         printAll(tvs);
         return tvs;
     }
 
-    public static Tv[] descendingOrderByYear() throws IOException {
-        Tv[] tvs = readTVsFromFile();
-        for (int i = 0; i < tvs.length; i++) {
-            for (int j = 1; j < tvs.length - i; j++) {
-                if (tvs[j - 1].getYear() < tvs[j].getYear()) {
-                    Tv temp = tvs[j];
-                    tvs[j] = tvs[j - 1];
-                    tvs[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Tv> descendingOrderByYear() throws IOException {
+        List<Tv> tvs = readTVsFromFile();
+        tvs.sort(new YearComparator().reversed());
         printAll(tvs);
         return tvs;
     }
 
-    private static Tv[] readTVsFromFile() throws IOException {
-        String[] strings = Files.readAllLines(Path.of(FILE_PATH)).toArray(new String[0]);
+    private static List<Tv> readTVsFromFile() throws IOException {
+        List<String> strings = Files.readAllLines(Path.of(FILE_PATH));
 
         return ConverterService.readTvsFile(strings);
     }
@@ -318,7 +260,7 @@ public class TVService {
         Files.write(Paths.get(FILE_PATH), stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
     }
 
-    public static void printAll(Tv[] tvs) throws IOException {
+    public static void printAll(List<Tv> tvs) throws IOException {
         if (tvs == null) {
             tvs = readTVsFromFile();
             for (Tv tv : tvs) {

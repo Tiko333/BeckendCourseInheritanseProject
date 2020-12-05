@@ -1,6 +1,7 @@
 package picsart.service;
 
-import picsart.model.cellPhone.Phone;
+import picsart.comparators.computerComparators.CostComparator;
+import picsart.comparators.computerComparators.YearComparator;
 import picsart.model.computer.Computer;
 
 import java.io.File;
@@ -9,6 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 import java.util.Scanner;
 
 public class ComputerService {
@@ -102,18 +106,18 @@ public class ComputerService {
         return computer;
     }
 
-    public static Computer[] createComputers(int size) throws IOException {
-        Computer[] computers = new Computer[size];
+    public static List<Computer> createComputers(int size) throws IOException {
+        List<Computer> computers = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             System.out.println("Creating computer number: " + (i + 1));
-            computers[i] = create();
+            computers.add(create());
         }
 
         return computers;
     }
 
     public static Computer findById(long id) throws IOException {
-        Computer[] computers = readComputersFromFile();
+        List<Computer> computers = readComputersFromFile();
         for (Computer computer : computers) {
             if (computer.getId() == id) {
                 System.out.println(computer.toString());
@@ -126,16 +130,16 @@ public class ComputerService {
     }
 
     public static void findByModel(String model) throws IOException {
-        Computer[] computers = readComputersFromFile();
+        List<Computer> computers = readComputersFromFile();
         boolean isFound = false;
-        for (int i = 0; i < computers.length; i++) {
-            Computer computer = computers[i];
+        for (int i = 0; i < computers.size(); i++) {
+            Computer computer = computers.get(i);
             if (computer.getModel().equals(model)) {
                 System.out.println(computer.toString());
                 isFound = true;
                 continue;
             }
-            if (isFound && (i == computers.length - 1)) {
+            if (isFound && (i == computers.size() - 1)) {
                 return;
             }
         }
@@ -145,24 +149,24 @@ public class ComputerService {
         }
     }
 
-    public static Computer[] findByPrice(double from, double to) throws IOException {
-        Computer[] computers = readComputersFromFile();
+    public static List<Computer> findByPrice(double from, double to) throws IOException {
+        List<Computer> computers = readComputersFromFile();
         int nullCounter = 0;
         for (Computer computer : computers) {
             if (computer.getPrice() < from || computer.getPrice() > to) {
                 nullCounter++;
             }
         }
-        if (nullCounter == computers.length) {
+        if (nullCounter == computers.size()) {
             System.out.println("Computers by range " + from + "$ to " + to + "$ has noy found:");
-            return new Computer[0];
+            return new ArrayList<>();
         }
-        int index = 0;
-        Computer[] selectedComputersByPriceRange = new Computer[computers.length - nullCounter];
+
+        List<Computer> selectedComputersByPriceRange = new ArrayList<>();
         for (Computer computer : computers) {
             double price = computer.getPrice();
             if (price >= from && price <= to) {
-                selectedComputersByPriceRange[index++] = computer;
+                selectedComputersByPriceRange.add(computer);
             }
         }
 
@@ -171,123 +175,63 @@ public class ComputerService {
     }
 
     public static Computer newerComputer() throws IOException {
-        Computer[] computers = readComputersFromFile();
-        Computer newerComputer = computers[0];
-        for (Computer computer : computers) {
-            if (computer.getYear() >= newerComputer.getYear()) {
-                newerComputer = computer;
-            }
-        }
-
-        printComputer(newerComputer);
-        return newerComputer;
+        List<Computer> computers = readComputersFromFile();
+        Computer max = Collections.max(computers, new YearComparator());
+        printComputer(max);
+        return max;
     }
 
     public static Computer olderComputer() throws IOException {
-        Computer[] computers = readComputersFromFile();
-        Computer olderComputer = computers[0];
-        for (Computer computer : computers) {
-            if (computer.getYear() < olderComputer.getYear()) {
-                olderComputer = computer;
-            }
-        }
-
-        printComputer(olderComputer);
-        return olderComputer;
+        List<Computer> computers = readComputersFromFile();
+        Computer min = Collections.min(computers, new YearComparator());
+        printComputer(min);
+        return min;
     }
 
     public static Computer biggerCost() throws IOException {
-        Computer[] computers = readComputersFromFile();
-        Computer biggerCostComputer = computers[0];
-        for (Computer computer : computers) {
-            if (computer.getPrice() > biggerCostComputer.getPrice()) {
-                biggerCostComputer = computer;
-            }
-        }
-
-        printComputer(biggerCostComputer);
-        return biggerCostComputer;
+        List<Computer> computers = readComputersFromFile();
+        Computer max = Collections.max(computers, new CostComparator());
+        printComputer(max);
+        return max;
     }
 
     public static Computer smallerCost() throws IOException {
-        Computer[] computers = readComputersFromFile();
-        Computer smallerCostComputer = computers[0];
-        for (Computer computer : computers) {
-            if (computer.getPrice() < smallerCostComputer.getPrice()) {
-                smallerCostComputer = computer;
-            }
-        }
-
-        printComputer(smallerCostComputer);
-        return smallerCostComputer;
+        List<Computer> computers = readComputersFromFile();
+        Computer min = Collections.min(computers, new CostComparator());
+        printComputer(min);
+        return min;
     }
 
-    public static Computer[] ascendingOrderByPrice() throws IOException {
-        Computer[] computers = readComputersFromFile();
-        for (int i = 0; i < computers.length; i++) {
-            for (int j = 1; j < computers.length - i; j++) {
-                if (computers[j - 1].getPrice() > computers[j].getPrice()) {
-                    Computer temp = computers[j];
-                    computers[j] = computers[j - 1];
-                    computers[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Computer> ascendingOrderByPrice() throws IOException {
+        List<Computer> computers = readComputersFromFile();
+        computers.sort(new CostComparator());
         printAll(computers);
         return computers;
     }
 
-    public static Computer[] descendingOrderByPrice() throws IOException {
-        Computer[] computers = readComputersFromFile();
-        for (int i = 0; i < computers.length; i++) {
-            for (int j = 1; j < computers.length - i; j++) {
-                if (computers[j - 1].getPrice() < computers[j].getPrice()) {
-                    Computer temp = computers[j];
-                    computers[j] = computers[j - 1];
-                    computers[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Computer> descendingOrderByPrice() throws IOException {
+        List<Computer> computers = readComputersFromFile();
+        computers.sort(new CostComparator().reversed());
         printAll(computers);
         return computers;
     }
 
-    public static Computer[] ascendingOrderByYear() throws IOException {
-        Computer[] computers = readComputersFromFile();
-        for (int i = 0; i < computers.length; i++) {
-            for (int j = 1; j < computers.length - i; j++) {
-                if (computers[j - 1].getYear() > computers[j].getYear()) {
-                    Computer temp = computers[j];
-                    computers[j] = computers[j - 1];
-                    computers[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Computer> ascendingOrderByYear() throws IOException {
+        List<Computer> computers = readComputersFromFile();
+        computers.sort(new YearComparator());
         printAll(computers);
         return computers;
     }
 
-    public static Computer[] descendingOrderByYear() throws IOException {
-        Computer[] computers = readComputersFromFile();
-        for (int i = 0; i < computers.length; i++) {
-            for (int j = 1; j < computers.length - i; j++) {
-                if (computers[j - 1].getYear() < computers[j].getYear()) {
-                    Computer temp = computers[j];
-                    computers[j] = computers[j - 1];
-                    computers[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Computer> descendingOrderByYear() throws IOException {
+        List<Computer> computers = readComputersFromFile();
+        computers.sort(new YearComparator().reversed());
         printAll(computers);
         return computers;
     }
 
-    private static Computer[] readComputersFromFile() throws IOException {
-        String[] strings = Files.readAllLines(Path.of(FILE_PATH)).toArray(new String[0]);
+    private static List<Computer> readComputersFromFile() throws IOException {
+        List<String> strings = Files.readAllLines(Path.of(FILE_PATH));
 
         return ConverterService.readComputersFile(strings);
     }
@@ -318,7 +262,7 @@ public class ComputerService {
         Files.write(Paths.get(FILE_PATH), stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
     }
 
-    public static void printAll(Computer[] computers) throws IOException {
+    public static void printAll(List<Computer> computers) throws IOException {
         if (computers == null) {
             computers = readComputersFromFile();
             for (Computer computer : computers) {

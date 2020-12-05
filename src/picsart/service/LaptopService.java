@@ -1,5 +1,7 @@
 package picsart.service;
 
+import picsart.comparators.laptopComparators.CostComparator;
+import picsart.comparators.laptopComparators.YearComparator;
 import picsart.model.computer.Laptop;
 
 import java.io.File;
@@ -8,6 +10,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Scanner;
 
 public class LaptopService {
@@ -174,18 +179,18 @@ public class LaptopService {
         return laptop;
     }
 
-    public static Laptop[] createLaptops(int size) throws IOException {
-        Laptop[] laptops = new Laptop[size];
+    public static List<Laptop> createLaptops(int size) throws IOException {
+        List<Laptop> laptops = new LinkedList<>();
         for (int i = 0; i < size; i++) {
             System.out.println("Creating laptop number: " + (i + 1));
-            laptops[i] = create();
+            laptops.add(create());
         }
 
         return laptops;
     }
 
     public static Laptop findById(long id) throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
+        List<Laptop> laptops = readLaptopsFromFile();
         for (Laptop laptop : laptops) {
             if (laptop.getId() == id) {
                 System.out.println(laptop.toString());
@@ -198,16 +203,16 @@ public class LaptopService {
     }
 
     public static void findByModel(String model) throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
+        List<Laptop> laptops = readLaptopsFromFile();
         boolean isFound = false;
-        for (int i = 0; i < laptops.length; i++) {
-            Laptop laptop = laptops[i];
+        for (int i = 0; i < laptops.size(); i++) {
+            Laptop laptop = laptops.get(i);
             if (laptop.getModel().equals(model)) {
                 System.out.println(laptop.toString());
                 isFound = true;
                 continue;
             }
-            if (isFound && (i == laptops.length - 1)) {
+            if (isFound && (i == laptops.size() - 1)) {
                 return;
             }
         }
@@ -217,24 +222,23 @@ public class LaptopService {
         }
     }
 
-    public static Laptop[] findByPrice(double from, double to) throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
+    public static List<Laptop> findByPrice(double from, double to) throws IOException {
+        List<Laptop> laptops = readLaptopsFromFile();
         int nullCounter = 0;
         for (Laptop laptop : laptops) {
             if (laptop.getPrice() < from || laptop.getPrice() > to) {
                 nullCounter++;
             }
         }
-        if (nullCounter == laptops.length) {
+        if (nullCounter == laptops.size()) {
             System.out.println("Laptops by range " + from + "$ to " + to + "$ has noy found:");
-            return new Laptop[0];
+            return new LinkedList<>();
         }
-        int index = 0;
-        Laptop[] selectedLaptopsByPriceRange = new Laptop[laptops.length - nullCounter];
+        List<Laptop> selectedLaptopsByPriceRange = new LinkedList<>();
         for (Laptop laptop : laptops) {
             double price = laptop.getPrice();
             if (price >= from && price <= to) {
-                selectedLaptopsByPriceRange[index++] = laptop;
+                selectedLaptopsByPriceRange.add(laptop);
             }
         }
 
@@ -243,123 +247,63 @@ public class LaptopService {
     }
 
     public static Laptop newerLaptop() throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
-        Laptop newerLaptop = laptops[0];
-        for (Laptop laptop : laptops) {
-            if (laptop.getYear() >= newerLaptop.getYear()) {
-                newerLaptop = laptop;
-            }
-        }
-
-        printLaptop(newerLaptop);
-        return newerLaptop;
+        List<Laptop> laptops = readLaptopsFromFile();
+        Laptop max = Collections.max(laptops, new YearComparator());
+        printLaptop(max);
+        return max;
     }
 
     public static Laptop olderLaptop() throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
-        Laptop olderLaptop = laptops[0];
-        for (Laptop laptop : laptops) {
-            if (laptop.getYear() < olderLaptop.getYear()) {
-                olderLaptop = laptop;
-            }
-        }
-
-        printLaptop(olderLaptop);
-        return olderLaptop;
+        List<Laptop> laptops = readLaptopsFromFile();
+        Laptop min = Collections.min(laptops, new YearComparator());
+        printLaptop(min);
+        return min;
     }
 
     public static Laptop biggerCost() throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
-        Laptop biggerCostLaptop = laptops[0];
-        for (Laptop laptop : laptops) {
-            if (laptop.getPrice() > biggerCostLaptop.getPrice()) {
-                biggerCostLaptop = laptop;
-            }
-        }
-
-        printLaptop(biggerCostLaptop);
-        return biggerCostLaptop;
+        List<Laptop> laptops = readLaptopsFromFile();
+        Laptop max = Collections.max(laptops, new CostComparator());
+        printLaptop(max);
+        return max;
     }
 
     public static Laptop smallerCost() throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
-        Laptop smallerCostLaptop = laptops[0];
-        for (Laptop laptop : laptops) {
-            if (laptop.getPrice() < smallerCostLaptop.getPrice()) {
-                smallerCostLaptop = laptop;
-            }
-        }
-
-        printLaptop(smallerCostLaptop);
-        return smallerCostLaptop;
+        List<Laptop> laptops = readLaptopsFromFile();
+        Laptop min = Collections.min(laptops, new CostComparator());
+        printLaptop(min);
+        return min;
     }
 
-    public static Laptop[] ascendingOrderByPrice() throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
-        for (int i = 0; i < laptops.length; i++) {
-            for (int j = 1; j < laptops.length - i; j++) {
-                if (laptops[j - 1].getPrice() > laptops[j].getPrice()) {
-                    Laptop temp = laptops[j];
-                    laptops[j] = laptops[j - 1];
-                    laptops[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Laptop> ascendingOrderByPrice() throws IOException {
+        List<Laptop> laptops = readLaptopsFromFile();
+        laptops.sort(new CostComparator());
         printAll(laptops);
         return laptops;
     }
 
-    public static Laptop[] descendingOrderByPrice() throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
-        for (int i = 0; i < laptops.length; i++) {
-            for (int j = 1; j < laptops.length - i; j++) {
-                if (laptops[j - 1].getPrice() < laptops[j].getPrice()) {
-                    Laptop temp = laptops[j];
-                    laptops[j] = laptops[j - 1];
-                    laptops[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Laptop> descendingOrderByPrice() throws IOException {
+        List<Laptop> laptops = readLaptopsFromFile();
+        laptops.sort(new CostComparator().reversed());
         printAll(laptops);
         return laptops;
     }
 
-    public static Laptop[] ascendingOrderByYear() throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
-        for (int i = 0; i < laptops.length; i++) {
-            for (int j = 1; j < laptops.length - i; j++) {
-                if (laptops[j - 1].getYear() > laptops[j].getYear()) {
-                    Laptop temp = laptops[j];
-                    laptops[j] = laptops[j - 1];
-                    laptops[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Laptop> ascendingOrderByYear() throws IOException {
+        List<Laptop> laptops = readLaptopsFromFile();
+        laptops.sort(new YearComparator());
         printAll(laptops);
         return laptops;
     }
 
-    public static Laptop[] descendingOrderByYear() throws IOException {
-        Laptop[] laptops = readLaptopsFromFile();
-        for (int i = 0; i < laptops.length; i++) {
-            for (int j = 1; j < laptops.length - i; j++) {
-                if (laptops[j - 1].getYear() < laptops[j].getYear()) {
-                    Laptop temp = laptops[j];
-                    laptops[j] = laptops[j - 1];
-                    laptops[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Laptop> descendingOrderByYear() throws IOException {
+        List<Laptop> laptops = readLaptopsFromFile();
+        laptops.sort(new YearComparator().reversed());
         printAll(laptops);
         return laptops;
     }
 
-    public static Laptop[] readLaptopsFromFile() throws IOException {
-        String[] strings = Files.readAllLines(Path.of(FILE_PATH)).toArray(new String[0]);
+    public static List<Laptop> readLaptopsFromFile() throws IOException {
+        List<String> strings = Files.readAllLines(Path.of(FILE_PATH));
 
         return ConverterService.readLaptopsFile(strings);
     }
@@ -399,7 +343,7 @@ public class LaptopService {
         Files.write(Paths.get(FILE_PATH), stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
     }
 
-    public static void printAll(Laptop[] laptops) throws IOException {
+    public static void printAll(List<Laptop> laptops) throws IOException {
         if (laptops == null) {
             laptops = readLaptopsFromFile();
             for (Laptop laptop : laptops) {

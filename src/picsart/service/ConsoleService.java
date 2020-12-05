@@ -1,6 +1,7 @@
 package picsart.service;
 
-import picsart.model.cellPhone.Phone;
+import picsart.comparators.consoleComparators.CostComparator;
+import picsart.comparators.consoleComparators.YearComparator;
 import picsart.model.videoGameConsole.Console;
 
 import java.io.File;
@@ -9,9 +10,8 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Scanner;
+import java.util.*;
 
-// fix create
 public class ConsoleService {
     private static final String FILE_PATH = "src/picsart/files/consoles.txt";
 
@@ -103,18 +103,18 @@ public class ConsoleService {
         return console;
     }
 
-    public static Console[] createConsoles(int size) throws IOException {
-        Console[] consoles = new Console[size];
+    public static List<Console> createConsoles(int size) throws IOException {
+        List<Console> consoles = new ArrayList<>();
         for (int i = 0; i < size; i++) {
             System.out.println("Creating console number: " + (i + 1));
-            consoles[i] = create();
+            consoles.add(create());
         }
 
         return consoles;
     }
 
     public static Console findById(long id) throws IOException {
-        Console[] consoles = readConsolesFromFile();
+        List<Console> consoles = readConsolesFromFile();
         for (Console console : consoles) {
             if (console.getId() == id) {
                 System.out.println(console.toString());
@@ -126,16 +126,16 @@ public class ConsoleService {
     }
 
     public static void findByModel(String model) throws IOException {
-        Console[] consoles = readConsolesFromFile();
+        List<Console> consoles = readConsolesFromFile();
         boolean isFound = false;
-        for (int i = 0; i < consoles.length; i++) {
-            Console console = consoles[i];
+        for (int i = 0; i < consoles.size(); i++) {
+            Console console = consoles.get(i);
             if (console.getModel().equals(model)) {
                 System.out.println(console.toString());
                 isFound = true;
                 continue;
             }
-            if (isFound && (i == consoles.length - 1)) {
+            if (isFound && (i == consoles.size() - 1)) {
                 return;
             }
         }
@@ -144,24 +144,23 @@ public class ConsoleService {
         }
     }
 
-    public static Console[] findByPrice(double from, double to) throws IOException {
-        Console[] consoles = readConsolesFromFile();
+    public static List<Console> findByPrice(double from, double to) throws IOException {
+        List<Console> consoles = readConsolesFromFile();
         int nullCounter = 0;
         for (Console console : consoles) {
             if (console.getPrice() < from || console.getPrice() > to) {
                 nullCounter++;
             }
         }
-        if (nullCounter == consoles.length) {
+        if (nullCounter == consoles.size()) {
             System.out.println("Phones by range " + from + "$ to " + to + "$ has noy found:");
-            return new Console[0];
+            return new LinkedList<>();
         }
-        int index = 0;
-        Console[] selectedConsolesByPriceRange = new Console[consoles.length - nullCounter];
+        List<Console> selectedConsolesByPriceRange = new LinkedList<>();
         for (Console phone : consoles) {
             double price = phone.getPrice();
             if (price >= from && price <= to) {
-                selectedConsolesByPriceRange[index++] = phone;
+                selectedConsolesByPriceRange.add(phone);
             }
         }
 
@@ -170,123 +169,63 @@ public class ConsoleService {
     }
 
     public static Console newerConsole() throws IOException {
-        Console[] consoles = readConsolesFromFile();
-        Console newerConsole = consoles[0];
-        for (Console console : consoles) {
-            if (console.getYear() >= newerConsole.getYear()) {
-                newerConsole = console;
-            }
-        }
-
-        printConsole(newerConsole);
-        return newerConsole;
+        List<Console> consoles = readConsolesFromFile();
+        Console max = Collections.max(consoles, new YearComparator());
+        printConsole(max);
+        return max;
     }
 
     public static Console olderConsole() throws IOException {
-        Console[] consoles = readConsolesFromFile();
-        Console olderConsole = consoles[0];
-        for (Console console : consoles) {
-            if (console.getYear() < olderConsole.getYear()) {
-                olderConsole = console;
-            }
-        }
-
-        printConsole(olderConsole);
-        return olderConsole;
+        List<Console> consoles = readConsolesFromFile();
+        Console min = Collections.min(consoles, new YearComparator());
+        printConsole(min);
+        return min;
     }
 
     public static Console biggerCost() throws IOException {
-        Console[] consoles = readConsolesFromFile();
-        Console biggerCostConsole = consoles[0];
-        for (Console console : consoles) {
-            if (console.getPrice() > biggerCostConsole.getPrice()) {
-                biggerCostConsole = console;
-            }
-        }
-
-        printConsole(biggerCostConsole);
-        return biggerCostConsole;
+        List<Console> consoles = readConsolesFromFile();
+        Console max = Collections.max(consoles, new CostComparator());
+        printConsole(max);
+        return max;
     }
 
     public static Console smallerCost() throws IOException {
-        Console[] consoles = readConsolesFromFile();
-        Console smallerCostConsole = consoles[0];
-        for (Console console : consoles) {
-            if (console.getPrice() < smallerCostConsole.getPrice()) {
-                smallerCostConsole = console;
-            }
-        }
-
-        printConsole(smallerCostConsole);
-        return smallerCostConsole;
+        List<Console> consoles = readConsolesFromFile();
+        Console min = Collections.min(consoles, new CostComparator());
+        printConsole(min);
+        return min;
     }
 
-    public static Console[] ascendingOrderByPrice() throws IOException {
-        Console[] consoles = readConsolesFromFile();
-        for (int i = 0; i < consoles.length; i++) {
-            for (int j = 1; j < consoles.length - i; j++) {
-                if (consoles[j - 1].getPrice() > consoles[j].getPrice()) {
-                    Console temp = consoles[j];
-                    consoles[j] = consoles[j - 1];
-                    consoles[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Console> ascendingOrderByPrice() throws IOException {
+        List<Console> consoles = readConsolesFromFile();
+        consoles.sort(new CostComparator());
         printAll(consoles);
         return consoles;
     }
 
-    public static Console[] descendingOrderByPrice() throws IOException {
-        Console[] consoles = readConsolesFromFile();
-        for (int i = 0; i < consoles.length; i++) {
-            for (int j = 1; j < consoles.length - i; j++) {
-                if (consoles[j - 1].getPrice() < consoles[j].getPrice()) {
-                    Console temp = consoles[j];
-                    consoles[j] = consoles[j - 1];
-                    consoles[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Console> descendingOrderByPrice() throws IOException {
+        List<Console> consoles = readConsolesFromFile();
+        consoles.sort(new CostComparator().reversed());
         printAll(consoles);
         return consoles;
     }
 
-    public static Console[] ascendingOrderByYear() throws IOException {
-        Console[] consoles = readConsolesFromFile();
-        for (int i = 0; i < consoles.length; i++) {
-            for (int j = 1; j < consoles.length - i; j++) {
-                if (consoles[j - 1].getYear() > consoles[j].getYear()) {
-                    Console temp = consoles[j];
-                    consoles[j] = consoles[j - 1];
-                    consoles[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Console> ascendingOrderByYear() throws IOException {
+        List<Console> consoles = readConsolesFromFile();
+        consoles.sort(new YearComparator());
         printAll(consoles);
         return consoles;
     }
 
-    public static Console[] descendingOrderByYear() throws IOException {
-        Console[] consoles = readConsolesFromFile();
-        for (int i = 0; i < consoles.length; i++) {
-            for (int j = 1; j < consoles.length - i; j++) {
-                if (consoles[j - 1].getYear() < consoles[j].getYear()) {
-                    Console temp = consoles[j];
-                    consoles[j] = consoles[j - 1];
-                    consoles[j - 1] = temp;
-                }
-            }
-        }
-
+    public static List<Console> descendingOrderByYear() throws IOException {
+        List<Console> consoles = readConsolesFromFile();
+        consoles.sort(new YearComparator().reversed());
         printAll(consoles);
         return consoles;
     }
 
-    private static Console[] readConsolesFromFile() throws IOException {
-        String[] strings = Files.readAllLines(Path.of(FILE_PATH)).toArray(new String[0]);
+    private static List<Console> readConsolesFromFile() throws IOException {
+        List<String> strings = Files.readAllLines(Path.of(FILE_PATH));
 
         return ConverterService.readConsolesFile(strings);
     }
@@ -316,7 +255,7 @@ public class ConsoleService {
         Files.write(Paths.get(FILE_PATH), stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
     }
 
-    public static void printAll(Console[] consoles) throws IOException {
+    public static void printAll(List<Console> consoles) throws IOException {
         if (consoles == null) {
             consoles = readConsolesFromFile();
             for (Console console : consoles) {
