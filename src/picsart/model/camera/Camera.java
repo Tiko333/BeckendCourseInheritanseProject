@@ -4,7 +4,10 @@ import picsart.exceptions.cameraExceptions.*;
 import picsart.model.electronics.Electronics;
 import picsart.service.StringCheckService;
 
-public class Camera extends Electronics implements CameraInterface {
+import java.io.Serializable;
+import java.util.Objects;
+
+public class Camera extends Electronics implements CameraInterface , Serializable {
 
     private String megapixels = NOT_INDICATED;
     private String pixelDimensions = NOT_INDICATED;
@@ -93,23 +96,6 @@ public class Camera extends Electronics implements CameraInterface {
     }
 
     @Override
-    public void printInfo() {
-        System.out.println("\n Camera model: " + getModel() + " Megapixels: " + megapixels + " Price: " + getPrice());
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() +
-                "Megapixels: " + megapixels + " \n" +
-                "Pixel Dimensions: " + pixelDimensions + " \n" +
-                "Pixel Size: " + pixelSize + " \n" +
-                "Sensor size: " + sensorSize + " \n" +
-                "Aspect ratio: " + aspectRatio + " \n" +
-                "Image processor: " + imageProcessor + " \n" +
-                "Sensor stabilization: " + (sensorStabilization ? "Yes" : "No") + " \n";
-    }
-
-    @Override
     public void takePhoto() {
         System.out.println("Taking photo");
     }
@@ -132,5 +118,44 @@ public class Camera extends Electronics implements CameraInterface {
     @Override
     public void openGallery() {
         System.out.println("Opening gallery");
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println(new StringBuilder()
+                .append("\n Camera model: ").append(getModel()).append(" \n")
+                .append(" Megapixels: ").append(megapixels).append(" \n")
+                .append(" Price: ").append(getPrice()).append(" \n").toString());
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + new StringBuilder()
+                        .append("Megapixels: ").append(megapixels).append(" \n")
+                        .append("Pixel Dimensions: ").append(pixelDimensions).append(" \n")
+                        .append("Pixel Size: ").append(pixelSize).append(" \n")
+                        .append("Sensor size: ").append(sensorSize).append(" \n")
+                        .append("Aspect ratio: ").append(aspectRatio).append(" \n")
+                        .append("Image processor: ").append(imageProcessor).append(" \n")
+                        .append("Sensor stabilization: ").append(sensorStabilization ? "Yes" : "No").append(" \n").toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Camera camera = (Camera) o;
+        return sensorStabilization == camera.sensorStabilization &&
+                Objects.equals(megapixels, camera.megapixels) &&
+                Objects.equals(pixelDimensions, camera.pixelDimensions) &&
+                Objects.equals(pixelSize, camera.pixelSize) &&
+                Objects.equals(sensorSize, camera.sensorSize) &&
+                Objects.equals(aspectRatio, camera.aspectRatio) &&
+                Objects.equals(imageProcessor, camera.imageProcessor);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(megapixels, pixelDimensions, pixelSize, sensorSize, aspectRatio, imageProcessor, sensorStabilization);
     }
 }

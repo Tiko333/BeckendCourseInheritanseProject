@@ -6,6 +6,7 @@ import picsart.service.StringCheckService;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Objects;
 
 public class Computer extends Electronics implements ComputerInterface {
 
@@ -87,22 +88,6 @@ public class Computer extends Electronics implements ComputerInterface {
     }
 
     @Override
-    public void printInfo() {
-        System.out.println("\n Model: " + getModel() + " OS: " + operatingSystem + " Price: " + getPrice());
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() +
-                "Processor model: " + processorModel + " \n" +
-                "Video card: " + videoCard + " \n" +
-                "Operation system: " + operatingSystem + " \n" +
-                "Storage capacity: " + storageCapacity + " \n" +
-                "Storage Type: " + storageType + " \n" +
-                "RAM: " + ram + " \n";
-    }
-
-    @Override
     public void playVideo() {
         System.out.println("Playing video");
     }
@@ -133,9 +118,46 @@ public class Computer extends Electronics implements ComputerInterface {
     }
 
     @Override
+    public void printInfo() {
+        System.out.println(new StringBuilder()
+                .append("\n Model: ").append(getModel()).append(" \n")
+                .append(" OS: ").append(operatingSystem).append(" \n")
+                .append(" Price: ").append(getPrice()).append(" \n").toString());
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + new StringBuilder()
+                .append("Processor model: ").append(processorModel).append(" \n")
+                .append("Video card: ").append(videoCard).append(" \n")
+                .append("Operation system: ").append(operatingSystem).append(" \n")
+                .append("Storage capacity:").append(storageCapacity).append(" \n")
+                .append("Storage Type: ").append(storageType).append(" \n")
+                .append("RAM: ").append(ram).append(" \n").toString();
+    }
+
+    @Override
     public void printDate() {
         Date date = new Date();
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss yyyy-dd-MM");
         System.out.println(simpleDateFormat.format(date));
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Computer computer = (Computer) o;
+        return storageCapacity == computer.storageCapacity &&
+                ram == computer.ram &&
+                Objects.equals(processorModel, computer.processorModel) &&
+                Objects.equals(videoCard, computer.videoCard) &&
+                Objects.equals(operatingSystem, computer.operatingSystem) &&
+                Objects.equals(storageType, computer.storageType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(processorModel, videoCard, operatingSystem, storageCapacity, storageType, ram);
     }
 }

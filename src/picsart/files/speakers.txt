@@ -1,0 +1,30 @@
+ID: 656341489
+Model: JBL Xtreme Camouflage
+Frequency: 70 - 20000
+Interface-type: Bluetooth
+Power: 5V
+Power-consumption: 40W
+Year: 2020
+Price: 299.796
+Date: 27/12/2020 02:18:47
+
+ID: 565441238
+Model: Philips BM6W/10
+Frequency: 50 - 20000
+Interface-type: Bluetooth
+Power: 5V
+Power-consumption: 15W
+Year: 2019
+Price: 232.245
+Date: 27/12/2020 02:20:22
+
+ID: 332564879
+Model: Bose SoundLink Color II Black
+Frequency: 70 - 20000
+Interface-type: Bluetooth
+Power: 5V
+Power-consumption: 20W
+Year: 2018
+Price: 142.653
+Date: 27/12/2020 02:40:33
+

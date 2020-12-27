@@ -10,6 +10,7 @@ Power: 155W
 Power-consumption: 220V
 Year: 2020
 Price: 377.99
+Date: 12/11/2020 13:24:22
 
 ID: 235957659
 TV-model: TCL
@@ -23,6 +24,7 @@ Power: 160W
 Power-consumption: 220V
 Year: 2018
 Price: 229.99
+Date: 2/5/2019 19:00:22
 
 ID: 670472740
 TV-model: Toshiba
@@ -36,4 +38,5 @@ Power: 145W
 Power-consumption: 220V
 Year: 2017
 Price: 119.99
+Date: 20/7/2017 2:23:44
 

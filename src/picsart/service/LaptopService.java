@@ -1,8 +1,11 @@
 package picsart.service;
 
 import picsart.comparators.laptopComparators.CostComparator;
+import picsart.comparators.laptopComparators.DateComparator;
 import picsart.comparators.laptopComparators.YearComparator;
+import picsart.model.computer.Computer;
 import picsart.model.computer.Laptop;
+import picsart.paths.FilePaths;
 
 import java.io.File;
 import java.io.IOException;
@@ -10,13 +13,21 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardOpenOption;
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class LaptopService {
-    private static final String FILE_PATH = "src/picsart/files/laptops.txt";
+    private static String path = FilePaths.LAPTOP.getValue();
+    private static Set<Laptop> laptopSet;
+
+    static {
+        try {
+            laptopSet = new HashSet<>(readFromFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private LaptopService() {}
 
     public static Laptop create() throws IOException {
         System.out.println("Create laptop:\n");
@@ -176,10 +187,11 @@ public class LaptopService {
         laptop.setYear(year);
 
         writeIntoFile(laptop);
+        laptopSet.add(laptop);
         return laptop;
     }
 
-    public static List<Laptop> createLaptops(int size) throws IOException {
+    public static List<Laptop> multipleCreate(int size) throws IOException {
         List<Laptop> laptops = new LinkedList<>();
         for (int i = 0; i < size; i++) {
             System.out.println("Creating laptop number: " + (i + 1));
@@ -189,11 +201,245 @@ public class LaptopService {
         return laptops;
     }
 
-    public static Laptop findById(long id) throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
+    public static void updateById(int id) throws IOException {
+        Laptop laptop = findById(id);
+        if (laptop == null) {
+            return;
+        }
+        deleteById(id);
+        laptopSet.remove(laptop);
+
+        System.out.println("\nInsert updating fields press 'enter' to skip:");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter model:");
+        String model = scanner.nextLine();
+
+        System.out.println("Enter processor model:");
+        String processorModel = scanner.nextLine();
+
+        System.out.println("Enter video card:");
+        String videoCard = scanner.nextLine();
+
+        System.out.println("Enter operating system:");
+        String operatingSystem = scanner.nextLine();
+
+        System.out.println("Enter storage type:");
+        String storageType = scanner.nextLine();
+
+        System.out.println("Enter power consumption:");
+        String powerConsumption = scanner.nextLine();
+
+        System.out.println("Enter power:");
+        String power = scanner.nextLine();
+
+        System.out.println("Enter screen size:");
+        String screenSize = scanner.nextLine();
+
+        System.out.println("Enter screen resolution:");
+        String screenResolution = scanner.nextLine();
+
+        System.out.println("Enter color:");
+        String color = scanner.nextLine();
+
+        System.out.println("Enter touch screen 'yes' or 'no':");
+        boolean isHaveTouchScreen = false;
+        String isTouchScreen = scanner.nextLine();
+        while (!isTouchScreen.equals("yes") && !isTouchScreen.equals("no")) {
+            System.out.println("sensor stabilization have not to be blank insert 'yes' or 'no': ");
+            isTouchScreen = scanner.nextLine();
+        }
+        if (isTouchScreen.equals("yes")) {
+            isHaveTouchScreen = true;
+        }
+
+        System.out.println("Enter built in microphone:");
+        String builtInMicrophone = scanner.nextLine();
+
+        System.out.println("Enter built in webcam:");
+        String builtInWebCam = scanner.nextLine();
+
+        System.out.println("Enter built in speaker:");
+        String builtInSpeaker = scanner.nextLine();
+
+        System.out.println("Enter bluetooth Type:");
+        String bluetoothType = scanner.nextLine();
+
+        System.out.println("Enter wifi type:");
+        String wifiType = scanner.nextLine();
+
+        System.out.println("Enter weight 0 to skip:");
+        double weight = scanner.nextDouble();
+
+        System.out.println("Enter storage capacity 0 to skip:");
+        int storageCapacity = scanner.nextInt();
+
+        System.out.println("Enter ram 0 to skip:");
+        int ram = scanner.nextInt();
+
+        System.out.println("Enter price 0 to skip:");
+        double price = scanner.nextDouble();
+
+        System.out.println("Enter year 0 to skip:");
+        int year = scanner.nextInt();
+
+
+        if (!processorModel.equals("")) {
+            laptop.setProcessorModel(processorModel);
+        }
+        if (!videoCard.equals("")) {
+            laptop.setVideoCard(videoCard);
+        }
+        if (!operatingSystem.equals("")) {
+            laptop.setOperatingSystem(operatingSystem);
+        }
+        if (!storageType.equals("")) {
+            laptop.setStorageType(storageType);
+        }
+        if (!model.equals("")) {
+            laptop.setModel(model);
+        }
+        if (ram > 1) {
+            laptop.setRam(ram);
+        }
+        if (!power.equals("")) {
+            laptop.setPower(power);
+        }
+        if (!powerConsumption.equals("")) {
+            laptop.setPowerConsumption(powerConsumption);
+        }
+        if (!model.equals("")) {
+            laptop.setModel(model);
+        }
+        if (storageCapacity > 1) {
+            laptop.setStorageCapacity(storageCapacity);
+        }
+        if (price > 0) {
+            laptop.setPrice(price);
+        }
+        if (year >= 1990 && year <= 2020) {
+            laptop.setYear(year);
+        }
+        if (!screenSize.equals("")) {
+            laptop.setScreenSize(screenSize);
+        }
+        if (!screenResolution.equals("")) {
+            laptop.setScreenResolution(screenResolution);
+        }
+        if (!color.equals("")) {
+            laptop.setColor(color);
+        }
+        laptop.setTouchScreen(isHaveTouchScreen);
+        if (!builtInMicrophone.equals("")) {
+            laptop.setBuiltInMicrophone(builtInMicrophone);
+        }
+        if (!model.equals("")) {
+            laptop.setModel(model);
+        }
+        if (!builtInWebCam.equals("")) {
+            laptop.setBuiltInWebCam(builtInWebCam);
+        }
+        if (!builtInSpeaker.equals("")) {
+            laptop.setBuiltInSpeaker(builtInSpeaker);
+        }
+        if (!bluetoothType.equals("")) {
+            laptop.setBluetoothType(bluetoothType);
+        }
+        if (!wifiType.equals("")) {
+            laptop.setWifiType(wifiType);
+        }
+        if (weight > 1) {
+            laptop.setWeight(weight);
+        }
+
+        writeIntoFile(laptop);
+        laptopSet.add(laptop);
+    }
+
+    public static boolean checkId(int id) {
+        Iterator<Laptop> iterator = laptopSet.iterator();
+        boolean isExistingByThisId = false;
+        while (iterator.hasNext()) {
+            Laptop next = iterator.next();
+            if (next.getId() == id) {
+                isExistingByThisId = true;
+                break;
+            }
+        }
+        return isExistingByThisId;
+    }
+
+    public static boolean deleteById(int id) throws IOException {
+        if (!checkId(id)) {
+            System.out.println("Laptop by id " + id + " does not exist:");
+            return false;
+        }
+        List<String> strings = Files.readAllLines(Path.of(path));
+        int begin = 0;
+        int end = 0;
+        int interval = 0;
+        for (String string : strings) {
+            interval++;
+            if (string.equals("")) {
+                break;
+            }
+        }
+
+        for (int i = 0; i < strings.size(); i += interval) {
+            String[] split = strings.get(i).split(":");
+            if (split[0].equals("ID") && Integer.parseInt(split[1].substring(1)) == id) {
+                begin = i;
+                end = begin + (interval - 1);
+                break;
+            }
+        }
+
+        Iterator<String> iterator = strings.iterator();
+        int cursor = 0;
+        while (cursor != begin) {
+            iterator.next();
+            cursor++;
+        }
+
+        int counter = begin;
+        while (counter <= end) {
+            if (counter == 0) {
+                iterator.next();
+            }
+            if (counter >= begin) {
+                iterator.remove();
+            }
+            iterator.next();
+            counter++;
+        }
+
+        Iterator<Laptop> laptopSetIterator = laptopSet.iterator();
+        while (laptopSetIterator.hasNext()) {
+            Computer next = laptopSetIterator.next();
+            if (next.getId() == id) {
+                laptopSetIterator.remove();
+                break;
+            }
+        }
+
+        deleteAll();
+        List<Laptop> laptops = ConverterService.readLaptopsFile(strings);
         for (Laptop laptop : laptops) {
+            writeIntoFile(laptop);
+        }
+
+        return true;
+    }
+
+    public static void deleteAll() throws IOException {
+        Path pathObj = Paths.get(path);
+        Files.newBufferedWriter(pathObj , StandardOpenOption.TRUNCATE_EXISTING);
+        laptopSet.clear();
+    }
+
+    public static Laptop findById(long id) throws IOException {
+        for (Laptop laptop : readFromFile()) {
             if (laptop.getId() == id) {
-                System.out.println(laptop.toString());
                 return laptop;
             }
         }
@@ -202,109 +448,160 @@ public class LaptopService {
         return null;
     }
 
-    public static void findByModel(String model) throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
-        boolean isFound = false;
-        for (int i = 0; i < laptops.size(); i++) {
-            Laptop laptop = laptops.get(i);
+    public static List<Laptop> findByModel(List<Laptop> laptops, String model) throws IOException {
+        List<Laptop> laptopList;
+        if (laptops == null) {
+            laptopList = readFromFile();
+        } else {
+            laptopList = laptops;
+        }
+        List<Laptop> byModel = new ArrayList<>();
+        for (Laptop laptop : laptopList) {
             if (laptop.getModel().equals(model)) {
-                System.out.println(laptop.toString());
-                isFound = true;
-                continue;
-            }
-            if (isFound && (i == laptops.size() - 1)) {
-                return;
+                byModel.add(laptop);
             }
         }
 
-        if (!isFound) {
-            System.out.println("There is no laptop by model: " + model);
-        }
+        return byModel;
     }
 
-    public static List<Laptop> findByPrice(double from, double to) throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
+    public static List<Laptop> findByPrice(List<Laptop> laptops, double from, double to) throws IOException {
+        List<Laptop> laptopList;
+        if (laptops == null) {
+            laptopList = readFromFile();
+        } else {
+            laptopList = laptops;
+        }
         int nullCounter = 0;
-        for (Laptop laptop : laptops) {
+        for (Laptop laptop : laptopList) {
             if (laptop.getPrice() < from || laptop.getPrice() > to) {
                 nullCounter++;
             }
         }
-        if (nullCounter == laptops.size()) {
+        if (nullCounter == laptopList.size()) {
             System.out.println("Laptops by range " + from + "$ to " + to + "$ has noy found:");
             return new LinkedList<>();
         }
-        List<Laptop> selectedLaptopsByPriceRange = new LinkedList<>();
-        for (Laptop laptop : laptops) {
+        List<Laptop> byPriceRange = new LinkedList<>();
+        for (Laptop laptop : laptopList) {
             double price = laptop.getPrice();
             if (price >= from && price <= to) {
-                selectedLaptopsByPriceRange.add(laptop);
+                byPriceRange.add(laptop);
             }
         }
 
-        printAll(selectedLaptopsByPriceRange);
-        return selectedLaptopsByPriceRange;
+        return byPriceRange;
     }
 
-    public static Laptop newerLaptop() throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
-        Laptop max = Collections.max(laptops, new YearComparator());
-        printLaptop(max);
-        return max;
+    public static List<Laptop> findByYear(List<Laptop> laptops, int year) throws IOException {
+        List<Laptop> laptopList;
+        if (laptops == null) {
+            laptopList = readFromFile();
+        } else {
+            laptopList = laptops;
+        }
+        List<Laptop> byYear = new ArrayList<>();
+        for (Laptop laptop : laptopList) {
+            if (laptop.getYear() == year) {
+                byYear.add(laptop);
+            }
+        }
+
+        return byYear;
     }
 
-    public static Laptop olderLaptop() throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
-        Laptop min = Collections.min(laptops, new YearComparator());
-        printLaptop(min);
-        return min;
+    public static List<Laptop> findModelByPrice(String model, double from, double to) throws IOException {
+        return findByPrice(findByModel(null, model), from, to);
+    }
+
+    public static List<Laptop> findModelByYear(String model, int year) throws IOException {
+        return findByYear(findByModel(null, model), year);
+    }
+
+    public static List<Laptop> findModelByDate(String model, String date) throws IOException {
+        return findByAddingDate(findByModel(null, model), date);
+    }
+
+    public static List<Laptop> findByAddingDate(List<Laptop> laptops, String date) throws IOException {
+        List<Laptop> laptopList;
+        if (laptops == null) {
+            laptopList = readFromFile();
+        } else {
+            laptopList = laptops;
+        }
+        List<Laptop> byAddingDate = new ArrayList<>();
+        for (Laptop laptop : laptopList) {
+            String cameraDate = laptop.getDate().substring(0, laptop.getDate().indexOf(' '));
+            if (cameraDate.equals(date)) {
+                byAddingDate.add(laptop);
+            }
+        }
+
+        return byAddingDate;
+    }
+
+    public static Laptop newer() throws IOException {
+        return Collections.max(readFromFile(), new YearComparator());
+    }
+
+    public static Laptop older() throws IOException {
+        return Collections.min(readFromFile(), new YearComparator());
     }
 
     public static Laptop biggerCost() throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
-        Laptop max = Collections.max(laptops, new CostComparator());
-        printLaptop(max);
-        return max;
+        return Collections.max(readFromFile(), new CostComparator());
     }
 
     public static Laptop smallerCost() throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
-        Laptop min = Collections.min(laptops, new CostComparator());
-        printLaptop(min);
-        return min;
+        return Collections.min(readFromFile(), new CostComparator());
+    }
+
+    public static Laptop newerAdded() throws IOException {
+        return Collections.max(readFromFile(), new DateComparator());
+    }
+
+    public static Laptop olderAdded() throws IOException {
+        return Collections.min(readFromFile(), new DateComparator());
     }
 
     public static List<Laptop> ascendingOrderByPrice() throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
+        List<Laptop> laptops = readFromFile();
         laptops.sort(new CostComparator());
-        printAll(laptops);
         return laptops;
     }
 
     public static List<Laptop> descendingOrderByPrice() throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
+        List<Laptop> laptops = readFromFile();
         laptops.sort(new CostComparator().reversed());
-        printAll(laptops);
         return laptops;
     }
 
     public static List<Laptop> ascendingOrderByYear() throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
+        List<Laptop> laptops = readFromFile();
         laptops.sort(new YearComparator());
-        printAll(laptops);
         return laptops;
     }
 
     public static List<Laptop> descendingOrderByYear() throws IOException {
-        List<Laptop> laptops = readLaptopsFromFile();
+        List<Laptop> laptops = readFromFile();
         laptops.sort(new YearComparator().reversed());
-        printAll(laptops);
         return laptops;
     }
 
-    public static List<Laptop> readLaptopsFromFile() throws IOException {
-        List<String> strings = Files.readAllLines(Path.of(FILE_PATH));
+    public static List<Laptop> ascendingOrderByAddingDate() throws IOException {
+        List<Laptop> laptops = readFromFile();
+        laptops.sort(new DateComparator());
+        return laptops;
+    }
 
+    public static List<Laptop> descendingOrderByAddingDate() throws IOException {
+        List<Laptop> laptops = readFromFile();
+        laptops.sort(new DateComparator(true));
+        return laptops;
+    }
+
+    public static List<Laptop> readFromFile() throws IOException {
+        List<String> strings = Files.readAllLines(Path.of(path));
         return ConverterService.readLaptopsFile(strings);
     }
 
@@ -332,31 +629,36 @@ public class LaptopService {
                 .append("\nPower: " + laptop.getPower())
                 .append("\nPower-consumption: " + laptop.getPowerConsumption())
                 .append("\nYear: " + laptop.getYear())
-                .append("\nPrice: " + laptop.getPrice() + "\n" + "\n");
+                .append("\nPrice: " + laptop.getPrice())
+                .append("\nDate: " + laptop.getDate() + "\n" + "\n");
 
-        File file = new File(FILE_PATH);
+        File file = new File(path);
         if (!file.exists()) {
             file.getParentFile().mkdirs();
             file.createNewFile();
         }
 
-        Files.write(Paths.get(FILE_PATH), stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
+        Files.write(Paths.get(path), stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
     }
 
     public static void printAll(List<Laptop> laptops) throws IOException {
         if (laptops == null) {
-            laptops = readLaptopsFromFile();
+            laptops = readFromFile();
             for (Laptop laptop : laptops) {
                 System.out.println(laptop.toString());
             }
             return;
         }
-        for (Laptop laptop : laptops) {
-            System.out.println(laptop.toString());
+        if (!laptops.isEmpty()) {
+            for (Laptop laptop : laptops) {
+                print(laptop);
+            }
+            return;
         }
+        System.out.println("No result");
     }
 
-    public static void printLaptop(Laptop laptop) {
+    public static void print(Laptop laptop) {
         System.out.println(laptop.toString());
     }
 }

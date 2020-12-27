@@ -4,6 +4,8 @@ import picsart.exceptions.videoGameConsoleExceptions.*;
 import picsart.model.electronics.Electronics;
 import picsart.service.StringCheckService;
 
+import java.util.Objects;
+
 public class Console extends Electronics implements ConsoleInterface {
 
     private String processor = NOT_INDICATED;
@@ -84,22 +86,43 @@ public class Console extends Electronics implements ConsoleInterface {
     }
 
     @Override
+    public void playGame() {
+        System.out.println("Playing game");
+    }
+
+    @Override
     public void printInfo() {
-        System.out.println("\n Console model: " + getModel() + " Storage: " + storage + " Price: " + getPrice());
+        System.out.println(new StringBuilder()
+                .append("\n Console model: ").append(getModel()).append(" \n")
+                .append(" Storage: ").append(storage).append(" \n")
+                .append(" Price: ").append(getPrice()).append(" \n").toString());
     }
 
     @Override
     public String toString() {
-        return super.toString() +
-                "Processor: "+ processor + " \n" +
-                "Memory: " + memory + " \n" +
-                "Storage: " + storage + " \n" +
-                "Drive: " + drive + " \n" +
-                "AVoutput: " + aVoutput + " \n";
+        return super.toString() + new StringBuilder()
+                .append("Processor: ").append(processor).append(" \n")
+                .append("Memory: ").append(memory).append(" \n")
+                .append("Storage: ").append(storage).append(" \n")
+                .append("Drive: ").append(drive).append(" \n")
+                .append("AVoutput: ").append(aVoutput).append(" \n").toString();
     }
 
     @Override
-    public void playGame() {
-        System.out.println("Playing game");
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Console console = (Console) o;
+        return Double.compare(console.weight, weight) == 0 &&
+                Objects.equals(processor, console.processor) &&
+                Objects.equals(memory, console.memory) &&
+                Objects.equals(storage, console.storage) &&
+                Objects.equals(drive, console.drive) &&
+                Objects.equals(aVoutput, console.aVoutput);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(processor, memory, storage, drive, aVoutput, weight);
     }
 }

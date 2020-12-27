@@ -1,9 +1,10 @@
 package picsart.service;
 
 import picsart.comparators.tvComparators.CostComparator;
+import picsart.comparators.tvComparators.DateComparator;
 import picsart.comparators.tvComparators.YearComparator;
-import picsart.model.computer.Computer;
 import picsart.model.tv.Tv;
+import picsart.paths.FilePaths;
 
 import java.io.File;
 import java.io.IOException;
@@ -14,7 +15,19 @@ import java.nio.file.StandardOpenOption;
 import java.util.*;
 
 public class TVService {
-    private static final String FILE_PATH = "src/picsart/files/tvs.txt";
+    private static String path = FilePaths.TV.getValue();
+
+    private static Set<Tv> tvSet;
+
+    static {
+        try {
+            tvSet = new HashSet<>(readFromFile());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private TVService() {}
 
     public static Tv create() throws IOException {
         System.out.println("Create TV:\n");
@@ -102,10 +115,11 @@ public class TVService {
         tv.setYear(year);
 
         writeIntoFile(tv);
+        tvSet.add(tv);
         return tv;
     }
 
-    public static List<Tv> createTvs(int size) throws IOException {
+    public static List<Tv> multipleCreate(int size) throws IOException {
         List<Tv> tvs = new LinkedList<>();
         for (int i = 0; i < size; i++) {
             System.out.println("Creating TV number: " + (i + 1));
@@ -115,11 +129,175 @@ public class TVService {
         return tvs;
     }
 
+    public static void updateById(int id) throws IOException {
+        Tv tv = findById(id);
+        if (tv == null) {
+            return;
+        }
+        deleteById(id);
+        tvSet.remove(tv);
+
+        System.out.println("\nInsert updating fields press 'enter' to skip:");
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.println("Enter model:");
+        String model = scanner.nextLine();
+
+        System.out.println("Enter screen type:");
+        String screenType = scanner.nextLine();
+
+        System.out.println("Enter screen size:");
+        String screenSize = scanner.nextLine();
+
+        System.out.println("Enter resolution:");
+        String resolution = scanner.nextLine();
+
+        System.out.println("Enter 3d or smart:");
+        String features3dOrSmart = scanner.nextLine();
+
+        System.out.println("Enter technologies3d:");
+        String technologies3d = scanner.nextLine();
+
+        System.out.println("Enter power consumption:");
+        String powerConsumption = scanner.nextLine();
+
+        System.out.println("Enter power:");
+        String power = scanner.nextLine();
+
+        System.out.println("Enter refresh rate:");
+        int refreshRate = scanner.nextInt();
+
+        System.out.println("Enter price 0 to skip:");
+        double price = scanner.nextDouble();
+
+        System.out.println("Enter year 0 to skip:");
+        int year = scanner.nextInt();
+
+        if (!screenType.equals("")) {
+            tv.setScreenType(screenType);
+        }
+        if (!resolution.equals("")) {
+            tv.setResolution(resolution);
+        }
+        if (!features3dOrSmart.equals("")) {
+            tv.setFeatures3dOrSmart(features3dOrSmart);
+        }
+        if (!technologies3d.equals("")) {
+            tv.setTechnologies3d(technologies3d);
+        }
+        if (refreshRate == 60 || refreshRate == 120 || refreshRate == 240) {
+            tv.setRefreshRate(refreshRate);
+        }
+        if (!screenSize.equals("")) {
+            tv.setScreenSize(screenSize);
+        }
+        if (!model.equals("")) {
+            tv.setModel(model);
+        }
+        if (!power.equals("")) {
+            tv.setPower(power);
+        }
+        if (!powerConsumption.equals("")) {
+            tv.setPowerConsumption(powerConsumption);
+        }
+        if (!model.equals("")) {
+            tv.setModel(model);
+        }
+        if (price != 0) {
+            tv.setPrice(price);
+        }
+        if (year >= 1990 && year <= 2020) {
+            tv.setYear(year);
+        }
+
+        writeIntoFile(tv);
+        tvSet.add(tv);
+    }
+
+    public static boolean checkId(int id) {
+        Iterator<Tv> iterator = tvSet.iterator();
+        boolean isExistingByThisId = false;
+        while (iterator.hasNext()) {
+            Tv next = iterator.next();
+            if (next.getId() == id) {
+                isExistingByThisId = true;
+                break;
+            }
+        }
+        return isExistingByThisId;
+    }
+
+    public static boolean deleteById(int id) throws IOException {
+        if (!checkId(id)) {
+            System.out.println("Tv by id " + id + " does not exist:");
+            return false;
+        }
+        List<String> strings = Files.readAllLines(Path.of(path));
+        int begin = 0;
+        int end = 0;
+        int interval = 0;
+        for (String string : strings) {
+            interval++;
+            if (string.equals("")) {
+                break;
+            }
+        }
+
+        for (int i = 0; i < strings.size(); i += interval) {
+            String[] split = strings.get(i).split(":");
+            if (split[0].equals("ID") && Integer.parseInt(split[1].substring(1)) == id) {
+                begin = i;
+                end = begin + (interval - 1);
+                break;
+            }
+        }
+
+        Iterator<String> iterator = strings.iterator();
+        int cursor = 0;
+        while (cursor != begin) {
+            iterator.next();
+            cursor++;
+        }
+
+        int counter = begin;
+        while (counter <= end) {
+            if (counter == 0) {
+                iterator.next();
+            }
+            if (counter >= begin) {
+                iterator.remove();
+            }
+            iterator.next();
+            counter++;
+        }
+
+        Iterator<Tv> tvSetIterator = tvSet.iterator();
+        while (tvSetIterator.hasNext()) {
+            Tv next = tvSetIterator.next();
+            if (next.getId() == id) {
+                tvSetIterator.remove();
+                break;
+            }
+        }
+
+        deleteAll();
+        List<Tv> laptops = ConverterService.readTvsFile(strings);
+        for (Tv tv : laptops) {
+            writeIntoFile(tv);
+        }
+
+        return true;
+    }
+
+    public static void deleteAll() throws IOException {
+        Path pathObj = Paths.get(path);
+        Files.newBufferedWriter(pathObj , StandardOpenOption.TRUNCATE_EXISTING);
+        tvSet.clear();
+    }
+
     public static Tv findById(long id) throws IOException {
-        List<Tv> computers = readTVsFromFile();
-        for (Tv tv : computers) {
+        for (Tv tv : readFromFile()) {
             if (tv.getId() == id) {
-                System.out.println(tv.toString());
                 return tv;
             }
         }
@@ -128,110 +306,163 @@ public class TVService {
         return null;
     }
 
-    public static void findByModel(String model) throws IOException {
-        List<Tv> tvs = readTVsFromFile();
-        boolean isFound = false;
-        for (int i = 0; i < tvs.size(); i++) {
-            Tv tv = tvs.get(i);
+    public static List<Tv> findByModel(List<Tv> tvs, String model) throws IOException {
+        List<Tv> tvList;
+        if (tvs == null) {
+            tvList = readFromFile();
+        } else {
+            tvList = tvs;
+        }
+        List<Tv> byModel = new ArrayList<>();
+        for (Tv tv : tvList) {
             if (tv.getModel().equals(model)) {
-                System.out.println(tv.toString());
-                isFound = true;
-                continue;
-            }
-            if (isFound && (i == tvs.size() - 1)) {
-                return;
+                byModel.add(tv);
             }
         }
 
-        if (!isFound) {
-            System.out.println("There is no TV by model: " + model);
-        }
+        return byModel;
     }
 
-    public static List<Tv> findByPrice(double from, double to) throws IOException {
-        List<Tv> tvs = readTVsFromFile();
+    public static List<Tv> findByPrice(List<Tv> tvs, double from, double to) throws IOException {
+        List<Tv> tvList;
+        if (tvs == null) {
+            tvList = readFromFile();
+        } else {
+            tvList = tvs;
+        }
         int nullCounter = 0;
-        for (Tv tv : tvs) {
+        for (Tv tv : tvList) {
             if (tv.getPrice() < from || tv.getPrice() > to) {
                 nullCounter++;
             }
         }
-        if (nullCounter == tvs.size()) {
+        if (nullCounter == tvList.size()) {
             System.out.println("TVs by range " + from + "$ to " + to + "$ has noy found:");
             return new ArrayList<>();
         }
 
-        List<Tv> selectedTVsByPriceRange = new ArrayList<>();
-        for (Tv tv : tvs) {
+        List<Tv> byPriceRange = new ArrayList<>();
+        for (Tv tv : tvList) {
             double price = tv.getPrice();
             if (price >= from && price <= to) {
-                selectedTVsByPriceRange.add(tv);
+                byPriceRange.add(tv);
             }
         }
 
-        printAll(selectedTVsByPriceRange);
-        return selectedTVsByPriceRange;
+        return byPriceRange;
     }
 
-    public static Tv newerTv() throws IOException {
-        List<Tv> tvs = readTVsFromFile();
-        Tv max = Collections.max(tvs, new YearComparator());
-        printTv(max);
-        return max;
+    public static List<Tv> findByYear(List<Tv> tvs, int year) throws IOException {
+        List<Tv> tvList;
+        if (tvs == null) {
+            tvList = readFromFile();
+        } else {
+            tvList = tvs;
+        }
+        List<Tv> byYear = new ArrayList<>();
+        for (Tv tv : tvList) {
+            if (tv.getYear() == year) {
+                byYear.add(tv);
+            }
+        }
+
+        return byYear;
     }
 
-    public static Tv olderTv() throws IOException {
-        List<Tv> tvs = readTVsFromFile();
-        Tv min = Collections.min(tvs, new YearComparator());
-        printTv(min);
-        return min;
+    public static List<Tv> findModelByPrice(String model, double from, double to) throws IOException {
+        return findByPrice(findByModel(null, model), from, to);
+    }
+
+    public static List<Tv> findModelByYear(String model, int year) throws IOException {
+        return findByYear(findByModel(null, model), year);
+    }
+
+    public static List<Tv> findModelByDate(String model, String date) throws IOException {
+        return findByAddingDate(findByModel(null, model), date);
+    }
+
+    public static List<Tv> findByAddingDate(List<Tv> tvs, String date) throws IOException {
+        List<Tv> tvList;
+        if (tvs == null) {
+            tvList = readFromFile();
+        } else {
+            tvList = tvs;
+        }
+        List<Tv> byAddingDate = new ArrayList<>();
+        for (Tv tv : tvList) {
+            String cameraDate = tv.getDate().substring(0, tv.getDate().indexOf(' '));
+            if (cameraDate.equals(date)) {
+                byAddingDate.add(tv);
+            }
+        }
+
+        return byAddingDate;
+    }
+
+    public static Tv newer() throws IOException {
+        return Collections.max(readFromFile(), new YearComparator());
+    }
+
+    public static Tv older() throws IOException {
+        return Collections.min(readFromFile(), new YearComparator());
     }
 
     public static Tv biggerCost() throws IOException {
-        List<Tv> tvs = readTVsFromFile();
-        Tv max = Collections.max(tvs, new CostComparator());
-        printTv(max);
-        return max;
+        return Collections.max(readFromFile(), new CostComparator());
     }
 
     public static Tv smallerCost() throws IOException {
-        List<Tv> tvs = readTVsFromFile();
-        Tv min = Collections.min(tvs, new CostComparator());
-        printTv(min);
-        return min;
+        return Collections.min(readFromFile(), new CostComparator());
+    }
+
+    public static Tv newerAdded() throws IOException {
+        return Collections.max(readFromFile(), new DateComparator());
+    }
+
+    public static Tv olderAdded() throws IOException {
+        return Collections.min(readFromFile(), new DateComparator());
     }
 
     public static List<Tv> ascendingOrderByPrice() throws IOException {
-        List<Tv> tvs = readTVsFromFile();
+        List<Tv> tvs = readFromFile();
         tvs.sort(new CostComparator());
-        printAll(tvs);
         return tvs;
     }
 
     public static List<Tv> descendingOrderByPrice() throws IOException {
-        List<Tv> tvs = readTVsFromFile();
+        List<Tv> tvs = readFromFile();
         tvs.sort(new CostComparator().reversed());
-        printAll(tvs);
         return tvs;
     }
 
     public static List<Tv> ascendingOrderByYear() throws IOException {
-        List<Tv> tvs = readTVsFromFile();
+        List<Tv> tvs = readFromFile();
         tvs.sort(new YearComparator());
-        printAll(tvs);
         return tvs;
     }
 
     public static List<Tv> descendingOrderByYear() throws IOException {
-        List<Tv> tvs = readTVsFromFile();
+        List<Tv> tvs = readFromFile();
         tvs.sort(new YearComparator().reversed());
-        printAll(tvs);
+
         return tvs;
     }
 
-    private static List<Tv> readTVsFromFile() throws IOException {
-        List<String> strings = Files.readAllLines(Path.of(FILE_PATH));
+    public static List<Tv> ascendingOrderByAddingDate() throws IOException {
+        List<Tv> tvs = readFromFile();
+        tvs.sort(new DateComparator());
 
+        return tvs;
+    }
+
+    public static List<Tv> descendingOrderByAddingDate() throws IOException {
+        List<Tv> tvs = readFromFile();
+        tvs.sort(new DateComparator(true));
+        return tvs;
+    }
+
+    private static List<Tv> readFromFile() throws IOException {
+        List<String> strings = Files.readAllLines(Path.of(path));
         return ConverterService.readTvsFile(strings);
     }
 
@@ -249,31 +480,36 @@ public class TVService {
                 .append("\nPower: " + tv.getPower())
                 .append("\nPower-consumption: " + tv.getPowerConsumption())
                 .append("\nYear: " + tv.getYear())
-                .append("\nPrice: " + tv.getPrice() + "\n" + "\n");
+                .append("\nPrice: " + tv.getPrice())
+                .append("\nDate: " + tv.getDate() + "\n" + "\n");
 
-        File file = new File(FILE_PATH);
+        File file = new File(path);
         if (!file.exists()) {
             file.getParentFile().mkdirs();
             file.createNewFile();
         }
 
-        Files.write(Paths.get(FILE_PATH), stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
+        Files.write(Paths.get(path), stringBuilder.toString().getBytes(), StandardOpenOption.APPEND);
     }
 
     public static void printAll(List<Tv> tvs) throws IOException {
         if (tvs == null) {
-            tvs = readTVsFromFile();
+            tvs = readFromFile();
             for (Tv tv : tvs) {
                 System.out.println(tv.toString());
             }
             return;
         }
-        for (Tv tv : tvs) {
-            System.out.println(tv.toString());
+        if (!tvs.isEmpty()) {
+            for (Tv tv : tvs) {
+                print(tv);
+            }
+            return;
         }
+        System.out.println("No result");
     }
 
-    public static void printTv(Tv tv) {
+    public static void print(Tv tv) {
         System.out.println(tv.toString());
     }
 }

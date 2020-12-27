@@ -1,0 +1,42 @@
+ID: 502713026
+Conditioner-model: Mitsubishi MUZ/H-25VA
+Type: Split system
+Operation-modes: Cooling / Heating
+Maximum-working-area: 20
+Noise-level: 43
+Size: 79.9x23.2x29
+Color: White
+Power: 220V
+Power-consumption: 870W
+Year: 2020
+Price: 673.469
+Date: 23/12/2020 19:49:57
+
+ID: 226598374
+Conditioner-model: Electrolux EACS-24HG-B/N3
+Type: Split system
+Operation-modes: Cooling / Heating
+Maximum-working-area: 60
+Noise-level: 37
+Size: 1.35x22x31
+Color: Black
+Power: 220V
+Power-consumption: 6500W
+Year: 2018
+Price: 936.735
+Date: 24/12/2020 19:50:12
+
+ID: 894332578
+Conditioner-model: Zanussi ZACS/I-24HPF/A17/N1/IN
+Type: Split system
+Operation-modes: Cooling / Heating
+Maximum-working-area: 65
+Noise-level: 31
+Size: 97x30x22.5
+Color: White
+Power: 220V
+Power-consumption: 2000W
+Year: 2019
+Price: 974.49
+Date: 25/12/2020 20:01:22
+

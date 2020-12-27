@@ -4,6 +4,8 @@ import picsart.exceptions.phoneExceptions.*;
 import picsart.model.electronics.Electronics;
 import picsart.service.StringCheckService;
 
+import java.util.Objects;
+
 public class Phone extends Electronics implements PhoneInterface {
 
     private String displayType = NOT_INDICATED;
@@ -117,7 +119,7 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     public void setMemory(int memory) {
-        if (memory <= 16) {
+        if (memory < 16) {
             throw new MemoryException(memory);
         }
         this.memory = memory;
@@ -168,29 +170,6 @@ public class Phone extends Electronics implements PhoneInterface {
     }
 
     @Override
-    public void printInfo() {
-        System.out.println("\n Phone model: " + getModel() + " OS: " + platformOS + " Price: " + getPrice());
-    }
-
-    @Override
-    public String toString() {
-        return super.toString() +
-                "Display type: " + displayType + " \n" +
-                "Display size: " + displaySize + " \n" +
-                "Display resolution: " + displayResolution + " \n" +
-                "Display protection: " + displayProtection + " \n" +
-                "OS: " + platformOS + " \n" +
-                "CPU: " + platformCPU + " \n" +
-                "GPU: " + platformGPU + " \n" +
-                "Chipset: " + platformChipset + " \n" +
-                "Memory: " + memory + " \n" +
-                "RAM: " + ram + " \n" +
-                "Main Camera: " + mainCamera + " \n" +
-                "Frontal camera: " + frontalCamera + " \n" +
-                "Battery: " + battery + " \n";
-    }
-
-    @Override
     public void call(String number) {
         System.out.println("Calling: " + number);
     }
@@ -203,5 +182,57 @@ public class Phone extends Electronics implements PhoneInterface {
     @Override
     public void sendEmail(String email) {
         System.out.println("Sending email: " + email);
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println(new StringBuilder()
+                .append("\n Phone model: ").append(getModel()).append(" \n")
+                .append(" OS: ").append(platformOS).append(" \n")
+                .append(" Price: ").append(getPrice()).append(" \n").toString());
+    }
+
+    @Override
+    public String toString() {
+
+        return super.toString() + new StringBuilder()
+                .append("Display type: ").append(displayType).append(" \n")
+                .append("Display size:").append(displaySize).append(" \n")
+                .append("Display resolution:").append(displayResolution).append(" \n")
+                .append("Display protection:").append(displayProtection).append(" \n")
+                .append("OS: ").append(platformOS).append(" \n")
+                .append("CPU: ").append(platformCPU).append(" \n")
+                .append("GPU: ").append(platformGPU).append(" \n")
+                .append("Chipset: ").append(platformChipset).append(" \n")
+                .append("Memory: ").append(memory).append(" \n")
+                .append("RAM: ").append(ram).append(" \n")
+                .append("Main Camera: ").append(mainCamera).append(" \n")
+                .append("Frontal camera: ").append(frontalCamera).append(" \n")
+                .append("Battery: ").append(battery).append(" \n").toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Phone phone = (Phone) o;
+        return memory == phone.memory &&
+                ram == phone.ram &&
+                Objects.equals(displayType, phone.displayType) &&
+                Objects.equals(displaySize, phone.displaySize) &&
+                Objects.equals(displayResolution, phone.displayResolution) &&
+                Objects.equals(displayProtection, phone.displayProtection) &&
+                Objects.equals(platformOS, phone.platformOS) &&
+                Objects.equals(platformCPU, phone.platformCPU) &&
+                Objects.equals(platformGPU, phone.platformGPU) &&
+                Objects.equals(platformChipset, phone.platformChipset) &&
+                Objects.equals(mainCamera, phone.mainCamera) &&
+                Objects.equals(frontalCamera, phone.frontalCamera) &&
+                Objects.equals(battery, phone.battery);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(displayType, displaySize, displayResolution, displayProtection, platformOS, platformCPU, platformGPU, platformChipset, memory, ram, mainCamera, frontalCamera, battery);
     }
 }

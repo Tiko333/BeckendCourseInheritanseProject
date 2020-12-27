@@ -4,19 +4,28 @@ import picsart.exceptions.electronicsException.*;
 import picsart.service.IDGenerator;
 import picsart.service.StringCheckService;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 public abstract class Electronics implements ElectronicsInterface {
 
     private long id;
     private String model = NOT_INDICATED;
     private String power = NOT_INDICATED;
     private String powerConsumption = NOT_INDICATED;
-    private double price = 1D;
-    private int year = 2000;
+    private double price;
+    private int year;
+    private String date;
 
     public abstract void printInfo();
 
     public Electronics(long id) {
         setId(id);
+        setPrice(1D);
+        setYear(2000);
+        SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+        String dateString = format.format(new Date());
+        date = dateString;
     }
 
     public long getId() {
@@ -85,14 +94,24 @@ public abstract class Electronics implements ElectronicsInterface {
         this.year = year;
     }
 
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
     @Override
     public String toString() {
-        return "Id: " + id + " \n" +
-                "Model: " + model + " \n" +
-                "Power: " + power + " \n" +
-                "Power consumption: " + powerConsumption + " \n" +
-                "Price: " + price + "$ \n" +
-                "Year: " + year + " \n";
+        return new StringBuilder()
+                .append("Id: ").append(id).append(" \n")
+                .append("Model: ").append(model).append(" \n")
+                .append("Power: ").append(power).append(" \n")
+                .append("Power consumption: ").append(powerConsumption).append(" \n")
+                .append("Price: ").append(price).append(" \n")
+                .append("Year: ").append(year).append(" \n")
+                .append("Date: ").append(date).append(" \n").toString();
     }
 
     @Override

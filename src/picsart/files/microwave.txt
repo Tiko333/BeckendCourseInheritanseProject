@@ -1,0 +1,42 @@
+ID: 175081658
+Model: Samsung MS23K3515AK
+Oven-capacity: 23
+Control: manual
+Switches: button
+Dimension: 48.9x27.5x37.4
+Weight: 12.0
+Screen: have
+Power: 220V
+Power-consumption: 800W
+Year: 2019
+Price: 167.347
+Date: 25/12/2020 12:34:45
+
+ID: 695548723
+Model: LG MW-25W35GIH
+Oven-capacity: 25
+Control: electronic
+Switches: sensor
+Dimension: 47.6x34.6x27.2
+Weight: 9.4
+Screen: have
+Power: 220V
+Power-consumption: 1000W
+Year: 2020
+Price: 275.102
+Date: 27/12/2020 01:23:46
+
+ID: 789945621
+Model: Electrolux EMM-21000W
+Oven-capacity: 20
+Control: manual
+Switches: rotational
+Dimension: 48.5x28.7x42.2
+Weight: 12.0
+Screen: have'nt
+Power: 220V
+Power-consumption: 800W
+Year: 2018
+Price: 126.939
+Date: 26/12/2020 10:15:22
+

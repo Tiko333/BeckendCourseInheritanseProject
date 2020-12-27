@@ -1,0 +1,39 @@
+ID: 668832118
+Camera-model: Philips HD7447/00
+Coffee-type: Minced
+Capacity: 1.2
+Material-of-corpus: Plastic
+Color: White
+Weight: 1.42
+Power: 220V
+Power-consumption: 1000W
+Year: 2019
+Price: 51.429
+Date: 24/12/2020 15:20:25
+
+ID: 452217889
+Camera-model: BRAUN KF3120BK
+Coffee-type: Minced
+Capacity: 1.3
+Material-of-corpus: Plastic
+Color: Black
+Weight: 1.5
+Power: 220V
+Power-consumption: 1000W
+Year: 2018
+Price: 75.918
+Date: 25/12/2020 11:14:55
+
+ID: 236699871
+Camera-model: Electrolux EKF3700
+Coffee-type: Minced
+Capacity: 1.63
+Material-of-corpus: Plastic
+Color: Black
+Weight: 1.55
+Power: 220V
+Power-consumption: 1100W
+Year: 2020
+Price: 54.694
+Date: 26/12/2020 15:15:34
+

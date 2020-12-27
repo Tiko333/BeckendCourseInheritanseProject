@@ -3,6 +3,8 @@ package picsart.model.computer;
 import picsart.exceptions.laptopExceptions.*;
 import picsart.service.StringCheckService;
 
+import java.util.Objects;
+
 public class Laptop extends Computer implements LaptopInterface {
 
     private String screenSize = NOT_INDICATED;
@@ -128,21 +130,6 @@ public class Laptop extends Computer implements LaptopInterface {
     }
 
     @Override
-    public String toString() {
-        return super.toString() +
-                "Screen size: " + screenSize + "inch \n" +
-                "Screen Resolution: " + screenResolution + " \n" +
-                "Color: " + color + " \n" +
-                "Screen: " + (isTouchScreen ?  "touch screen" : "not touch screen") + " \n" +
-                "Built-in microphone: " + builtInMicrophone + " \n" +
-                "Built-in webcam: " + builtInWebCam + " \n" +
-                "Built-in speaker: " + builtInSpeaker + " \n" +
-                "Bluetooth: " + bluetoothType + " \n" +
-                "Wifi: " + wifiType + " \n" +
-                "Weight: " + weight + "kg \n";
-    }
-
-    @Override
     public void openLaptop() {
         System.out.println("Laptop opened");
     }
@@ -160,5 +147,48 @@ public class Laptop extends Computer implements LaptopInterface {
     @Override
     public void setCharging() {
         System.out.println("Charging is set");
+    }
+
+    @Override
+    public void printInfo() {
+        super.printInfo();
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + new StringBuilder()
+                .append("Screen size: ").append(screenSize).append("inch \n")
+                .append("Screen Resolution: ").append(screenResolution).append(" \n")
+                .append("Color: ").append(color).append(" \n")
+                .append("Screen: ").append(isTouchScreen ?  "touch screen" : "not touch screen").append(" \n")
+                .append("Built-in microphone: ").append(builtInMicrophone).append(" \n")
+                .append("Built-in webcam: ").append(builtInWebCam).append(" \n")
+                .append("Built-in speaker: ").append(builtInSpeaker).append(" \n")
+                .append("Bluetooth: ").append(bluetoothType).append(" \n")
+                .append("Wifi: ").append(wifiType).append(" \n")
+                .append("Weight: ").append(weight).append("kg \n").toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        if (!super.equals(o)) return false;
+        Laptop laptop = (Laptop) o;
+        return isTouchScreen == laptop.isTouchScreen &&
+                Double.compare(laptop.weight, weight) == 0 &&
+                Objects.equals(screenSize, laptop.screenSize) &&
+                Objects.equals(screenResolution, laptop.screenResolution) &&
+                Objects.equals(color, laptop.color) &&
+                Objects.equals(builtInMicrophone, laptop.builtInMicrophone) &&
+                Objects.equals(builtInWebCam, laptop.builtInWebCam) &&
+                Objects.equals(builtInSpeaker, laptop.builtInSpeaker) &&
+                Objects.equals(bluetoothType, laptop.bluetoothType) &&
+                Objects.equals(wifiType, laptop.wifiType);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(super.hashCode(), screenSize, screenResolution, color, isTouchScreen, builtInMicrophone, builtInWebCam, builtInSpeaker, bluetoothType, wifiType, weight);
     }
 }

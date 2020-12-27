@@ -20,6 +20,7 @@ Power: 300W
 Power-consumption: 220V
 Year: 2020
 Price: 499.99
+Date: 15/4/2020 16:44:22
 
 ID: 434593622
 MotherBoard-model: Lenovo
@@ -43,6 +44,7 @@ Power: 300W
 Power-consumption: 220V
 Year: 2018
 Price: 549.99
+Date: 3/5/2018 14:12:23
 
 ID: 579014753
 MotherBoard-model: ASUS
@@ -66,4 +68,5 @@ Power: 300W
 Power-consumption: 220V
 Year: 2020
 Price: 249.0
+Date: 1/10/2020 17:55:20
 

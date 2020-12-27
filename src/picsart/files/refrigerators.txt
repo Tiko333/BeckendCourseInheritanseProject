@@ -1,0 +1,63 @@
+ID: 467185689
+Model: MIDEA HD-215FWE(S)
+Type: Two door
+Energy-consumption-class: A
+Dimensions: cm (L x B x X). 50 x 133 x 58
+Freezer-position: Above
+Freezer-volume: 42
+Total-volume: 165
+Refrigerator-volume: 123
+Shelf-material: Glass
+Management: Mechanical
+Color: Gray
+Freshness-chamber: haven't
+De-frost: haven't
+No-frost: have
+Power: 500W
+Power-consumption: 220V
+Year: 2020
+Price: 275.816
+Date: 21/12/2020 18:14:01
+
+ID: 123586685
+Model: MIDEA HS-121LN(S)
+Type: One door
+Energy-consumption-class: A
+Dimensions: (L x B x H) (cm): 47 x 83 x 45
+Freezer-position: Above
+Freezer-volume: 20
+Total-volume: 120
+Refrigerator-volume: 100
+Shelf-material: Glass
+Management: Mechanical
+Color: Gray
+Freshness-chamber: haven't
+De-frost: have
+No-frost: haven't
+Power: 500W
+Power-consumption: 220V
+Year: 2018
+Price: 194.286
+Date: 21/12/2020 18:20:21
+
+ID: 734217689
+Model: Samsung RS552NRUASL/WT
+Type: Three door
+Energy-consumption-class: A+
+Dimensions: 91.2 x 70 x 178.9 cm
+Freezer-position: Lateral
+Freezer-volume: 234
+Total-volume: 538
+Refrigerator-volume: 341
+Shelf-material: Glass
+Management: Electronic
+Color: White
+Freshness-chamber: haven't
+De-frost: haven't
+No-frost: have
+Power: 500W
+Power-consumption: 220V
+Year: 2019
+Price: 1432.857
+Date: 21/12/2020 18:23:17
+

@@ -1,0 +1,45 @@
+ID: 368488464
+Camera-model: Zanussi ZWSE7100V
+Type-of-installation: Individual stand
+Download-type: Frontal
+Maximum-download: 5
+Programs: 14
+Dimensions: 60x39x85
+Display: have
+Weight: 50
+Power: 220V
+Power-consumption: 1000W
+Year: 2020
+Price: 336.531
+Date: 21/12/2020 01:23:29
+
+ID: 556377892
+Camera-model: Samsung WW70J52E0JWDLP
+Type-of-installation: Individual stand
+Download-type: Frontal
+Maximum-download: 7
+Programs: 14
+Dimensions: 60x85x45
+Display: have
+Weight: 55
+Power: 220V
+Power-consumption: 1100W
+Year: 2019
+Price: 440.612
+Date: 25/12/2020 12:43:22
+
+ID: 776332158
+Camera-model: Electrolux EW6F4R21B
+Type-of-installation: Individual stand
+Download-type: Frontal
+Maximum-download: 10
+Programs: 14
+Dimensions: 60x85x60
+Display: have
+Weight: 60
+Power: 220V
+Power-consumption: 1200W
+Year: 2018
+Price: 622.245
+Date: 26/12/2020 14:11:55
+

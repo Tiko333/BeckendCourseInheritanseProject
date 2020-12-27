@@ -4,6 +4,8 @@ import picsart.exceptions.tvExceptions.*;
 import picsart.model.electronics.Electronics;
 import picsart.service.StringCheckService;
 
+import java.util.Objects;
+
 public class Tv extends Electronics implements TvInterface {
 
     private String screenType = NOT_INDICATED;
@@ -86,22 +88,6 @@ public class Tv extends Electronics implements TvInterface {
     }
 
     @Override
-    public void printInfo() {
-        System.out.println("\n TV model: " + getModel() + " Resolution: " + resolution + " Price: " + getPrice());
-    }
-
-    @Override
-    public String toString() {
-        return super.toString()
-                + "Screen Type: " + screenType + " \n" +
-                "Screen Size: " + screenSize + "inch \n" +
-                "Resolution: " + resolution + " \n" +
-                "Features: " + features3dOrSmart + " \n" +
-                "Refresh rate: " + refreshRate + "Hz \n" +
-                "3D technologies: " + technologies3d + " \n";
-    }
-
-    @Override
     public void nextChannel() {
         System.out.println("Channel is switched to next");
     }
@@ -134,5 +120,42 @@ public class Tv extends Electronics implements TvInterface {
     @Override
     public void searchChannels() {
         System.out.println("Searching channels");
+    }
+
+    @Override
+    public void printInfo() {
+        System.out.println(new StringBuilder()
+                .append("\n TV model: ").append(getModel()).append(" \n")
+                .append(" Resolution: ").append(resolution).append(" \n")
+                .append(" Price: ").append(getPrice()).append(" \n").toString());
+    }
+
+    @Override
+    public String toString() {
+        return super.toString() + new StringBuilder()
+                .append("Screen Type: ").append(screenType).append(" \n")
+                .append("Screen Size: ").append(screenSize).append("inch \n")
+                .append("Resolution: ").append(resolution).append(" \n")
+                .append("Features: ").append(features3dOrSmart).append(" \n")
+                .append("Refresh rate: ").append(refreshRate).append("Hz \n")
+                .append("3D technologies: ").append(technologies3d).append(" \n").toString();
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Tv tv = (Tv) o;
+        return refreshRate == tv.refreshRate &&
+                Objects.equals(screenType, tv.screenType) &&
+                Objects.equals(screenSize, tv.screenSize) &&
+                Objects.equals(resolution, tv.resolution) &&
+                Objects.equals(features3dOrSmart, tv.features3dOrSmart) &&
+                Objects.equals(technologies3d, tv.technologies3d);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(screenType, screenSize, resolution, features3dOrSmart, refreshRate, technologies3d);
     }
 }

@@ -17,6 +17,7 @@ Power: 12V
 Power-consumption: 33W
 Year: 2020
 Price: 459.0
+Date: 12/4/2020 12:12:37
 
 ID: 204684210
 Phone-model: Apple iPhone 12 Pro Max
@@ -37,6 +38,7 @@ Power: 12V
 Power-consumption: 20W
 Year: 2020
 Price: 1399.0
+Date: 12/4/2020 11:00:27
 
 ID: 401372167
 Phone-model: Samsung Galaxy A51
@@ -57,4 +59,5 @@ Power: 12V
 Power-consumption: 15W
 Year: 2019
 Price: 274.99
+Date: 11/5/2019 22:12:00
 

@@ -1,0 +1,48 @@
+ID: 935791784
+Camera-model: Thomas 786553 DRYBOX
+Type: Dry clean
+Pipe-type: telescopic
+Dust-collector: bowl + аquafilter
+Type-of-management: manual
+Color: Black
+Floor-and-carpet-knob: have
+Soft-furniture-knob: have
+Corners-knob: have
+Power: 220V
+Power-consumption: 1700W
+Year: 2020
+Price: 356.939
+Date: 26/12/2020 17:08:39
+
+ID: 145669879
+Camera-model: Electrolux EPF61RRT
+Type: Dry clean
+Pipe-type: telescopic
+Dust-collector: sack
+Type-of-management: electrical
+Color: Red
+Floor-and-carpet-knob: have'nt
+Soft-furniture-knob: have'nt
+Corners-knob: have
+Power: 220V
+Power-consumption: 800W
+Year: 2019
+Price: 145.306
+Date: 25/12/2020 23:24:21
+
+ID: 332569814
+Camera-model: Tefal TW3953EA
+Type: Dry clean
+Pipe-type: telescopic
+Dust-collector: sack
+Type-of-management: manual
+Color: Red
+Floor-and-carpet-knob: have
+Soft-furniture-knob: have
+Corners-knob: have
+Power: 220V
+Power-consumption: 750W
+Year: 2018
+Price: 127.755
+Date: 24/12/2020 12:22:44
+

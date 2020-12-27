@@ -10,6 +10,7 @@ Power: 220V
 Power-consumption: 200W
 Year: 2020
 Price: 499.99
+Date: 13/11/2020 11:32:47
 
 ID: 569874120
 Console-model: PlayStation 4
@@ -23,6 +24,7 @@ Power: 240V
 Power-consumption: 137W
 Year: 2013
 Price: 399.99
+Date: 2/11/2013 2:42:12
 
 ID: 921533531
 Console-model: Xbox One
@@ -36,4 +38,5 @@ Power: 220V
 Power-consumption: 90W
 Year: 2013
 Price: 299.99
+Date: 23/7/2013 21:34:55
 

@@ -10,6 +10,7 @@ Power: 500W
 Power-consumption: 220V
 Year: 2020
 Price: 529.99
+Date: 1/1/2020 18:00:00
 
 ID: 974787568
 MotherBoard-model: Lenovo
@@ -23,6 +24,7 @@ Power: 450W
 Power-consumption: 220v
 Year: 2019
 Price: 349.99
+Date: 2/12/2019 22:01:02
 
 ID: 600995880
 MotherBoard-model: Dell
@@ -36,4 +38,19 @@ Power: 500W
 Power-consumption: 220V
 Year: 2018
 Price: 649.99
+Date: 20/12/2018 13:23:34
+
+ID: 127930869
+MotherBoard-model: Intel
+CPU-model: Pentium 1
+GPU-model: test VideoCard
+Operating-system: Windows XP
+Storage-capacity: 10
+Storage-type: Drive
+Ram: 256
+Power: 300W
+Power-consumption: 220V
+Year: 2002
+Price: 100.0
+Date: 18/12/2020 19:06:30
 

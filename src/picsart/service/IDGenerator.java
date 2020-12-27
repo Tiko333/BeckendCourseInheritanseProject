@@ -6,8 +6,8 @@ public class IDGenerator {
     private IDGenerator() {
     }
 
-    public static int generateID(int n) {
-        int m = (int) Math.pow(10, n - 1);
+    public static int generateID(int length) {
+        int m = (int) Math.pow(10, length - 1);
         return m + new Random().nextInt(9 * m);
     }
 

@@ -11,6 +11,7 @@ Power: 20V
 Power-consumption: 15W
 Year: 2015
 Price: 499.99
+Date: 18/12/2015 17:42:27
 
 ID: 111069156
 Camera-model: Nikon
@@ -25,6 +26,7 @@ Power: 20V
 Power-consumption: 15W
 Year: 2014
 Price: 299.99
+Date: 17/12/2014 16:44:22
 
 ID: 600449367
 Camera-model: Sony
@@ -39,6 +41,7 @@ Power: 22V
 Power-consumption: 14W
 Year: 2016
 Price: 199.99
+Date: 2/4/2016 12:43:27
 
 ID: 296897655
 Camera-model: Fujifilm
@@ -53,4 +56,20 @@ Power: 22V
 Power-consumption: 15W
 Year: 2020
 Price: 139.99
+Date: 18/12/2020 15:45:57
+
+ID: 296897655
+Camera-model: Fujifilm
+Megapixels: 12.4
+Pixel-dimensions: 2
+Pixel-size: 1
+Sensor-size: 3
+Aspect-ratio: 3840 x 2160
+Image-processor: IPU
+Sensor-stabilization: have sensor stabilization
+Power: 22V
+Power-consumption: 15W
+Year: 2020
+Price: 200.99
+Date: 19/12/2019 12:35:47
 
